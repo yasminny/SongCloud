@@ -1,19 +1,6 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import GreeterComponent from './GreeterComponent';
-
-
-const Root = () => {
-  return (
-    <div>
-    <h1>Song Cloud</h1>
-      <GreeterComponent
-        age= '36'
-        name='Yasmin'
-      />
-  </div>
-  );
-};
+import Root from './components/Root'
 
 ReactDOM.render(<Root/>, document.querySelector('#root'));
 
