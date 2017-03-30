@@ -1,17 +1,17 @@
-/**
- * Created by NEXUS on 28/03/2017.
- */
+import {
+  NavLink
+} from 'react-router-dom';
 export default function Topbar() {
  return (
    <div>
-     <nav>
-       <a href="#">logo</a>
-       <ul>
-         <li><a href="#">Explore</a></li>
-         <li><a href="#">Playlists</a></li>
+     <nav className="navbar">
+       <ul className="menu">
+         <li><NavLink to="/" className="logo-name"><i className="fa fa-mixcloud nav-logo" aria-hidden="true"/>SongCloud</NavLink></li>
+         <li><NavLink to="explore" exact activeClassName="selected" className="link">Explore</NavLink></li>
+         <li><NavLink to="playlists" exact activeClassName="selected" className="link">Playlists</NavLink></li>
        </ul>
-       <input type="text"/>
-       <button type="button">Logout</button>
+       <input type="text" className="search"/>
+       <button type="button" className="logout"><NavLink to="signin">Logout</NavLink></button>
      </nav>
    </div>
  );

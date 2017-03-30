@@ -1,8 +1,9 @@
 // eslint-disable-next-line strict
 'use strict';
 
-const webpack = require('webpack');
-const path    = require('path');
+const webpack      = require('webpack');
+const path         = require('path');
+const autoprefixer = require('autoprefixer');
 
 // Load Webpack Plugins
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -75,6 +76,27 @@ const config = {
         exclude
       },
 
+      // Allow `require`ing SCSS files
+      {
+        test: /\.scss$/,
+        loaders: [
+          'style-loader',
+          'css-loader?root=' + encodeURIComponent(appPath),
+          'postcss-loader',
+          'sass-loader?includePaths[]=' + encodeURIComponent(appPath)
+        ],
+        exclude: exclude
+      },
+
+      // Allow `require`ing CSS files
+      {
+        test: /\.css$/,
+        loaders: [
+          'style-loader',
+          'css-loader?root=' + encodeURIComponent(appPath)
+        ]
+      },
+
       // Allow `require`ing image/font files (also when included in CSS)
       // Inline assets under 5kb as Base64 data URI, otherwise uses `file-loader`
       {
@@ -93,8 +115,7 @@ const config = {
     historyApiFallback: {
       index: '/'
     }
-  },
-
+  }
 };
 
 if (appEnv === 'development') {

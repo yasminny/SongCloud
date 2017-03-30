@@ -1,10 +1,27 @@
-/**
- * Created by NEXUS on 28/03/2017.
- */
+import {
+  NavLink
+} from 'react-router-dom';
 export default function Signin() {
  return (
-   <div>
-     <h1>Signin component</h1>
+   <div className="sign register">
+     <i className="fa fa-mixcloud big-logo" aria-hidden="true"/>
+     <h1>SongCloud</h1>
+     <form>
+       <h2>Sign in</h2>
+       <label>
+         Email
+         <input type="text" className="user-name"/>
+       </label>
+       <label>
+         Password
+         <input type="password" className="pass"/>
+       </label>
+       <button type="submit" className="signup-btn"><NavLink to="explore">Continue</NavLink></button>
+     </form>
+     <footer>
+       <h3>Don't have an account yet?</h3>
+       <button type="button" className="go-to-signin-btn"><NavLink to="signup">Create Account</NavLink></button>
+     </footer>
    </div>
  );
 }
