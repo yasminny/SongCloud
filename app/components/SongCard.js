@@ -15,11 +15,10 @@ export default function SongCard(props) {
 
   return (
     <div className="songcard">
-      <img src={props.artwork_url} className="song-img"/>
-      {/*<img src="" className="song-thumbnail"/>*/}
+      <div className="song-img" style={{'backgroundImage': `url( ${props.artwork_url})`}}> </div>
       <div className="details">
         <h1>{props.title}</h1>
-        <h2>{msToTime(props.duration)}</h2>
+        <h2><i className="fa fa-clock-o" aria-hidden="true"/>{msToTime(props.duration)}</h2>
       </div>
 
       <button type="button" className="add-to-list"><i className="fa fa-heart"/></button>

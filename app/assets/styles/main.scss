@@ -19,20 +19,25 @@ html {
   box-sizing: border-box;
 }
 
-input[type=email], input[type=text], input[type=password], a:not([class*=btn]){
-  background: none;
-}
+//input[type=email], input[type=text], input[type=password], a:not([class*=btn]){
+//  background: none;
+//}
 
 *, *:before, *:after {
   box-sizing: inherit;
 }
 
 body {
-  padding-top: 79px;
+  padding-top: 94px;
+  padding-bottom: 50px;
 }
 
 input{
   border: none;
+}
+
+a:link, a:visited, a:hover, a:target{
+  color: #2196F3;
 }
 
 #root, .main-root, main{
@@ -40,63 +45,152 @@ input{
   height: 100%;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.loading{
+  display: flex;
+}
+
+.fa-spinner{
+  color: #2196F3;
+  margin: 50px auto;
+  display: inline-block;
+  font-size: 5rem;
+}
+
+//----------topBar
+
 .navbar{
   position: fixed;
+  display: flex;
+  justify-content: space-between;
   top: 0;
   left: 0;
   width: 100%;
   background-color: #2196F3;
   height: 64px;
+  z-index: 10;
 }
 
+.right{
+  display: flex;
+  align-items: center;
+}
+
+//.left{
+  //display: flex;
+  //justify-content: flex-start;
+
+//}
+
 .menu{
-  float: left;
+ display: flex;
+  justify-content: flex-start;
+  align-items: center;
+ // width: 50%;
 }
 
 .menu li{
-  display: inline-block;
+  line-height: 64px;
+  //display: inline-block;
   //padding: 10px;
+  //display: flex;
+  //align-content: center;
 }
-
-
 
 .menu a{
   color: white;
-  //font-weight: 800;
-  //font-size: larger;
+
+  height: 64px;
+  font-size: 0.94rem;
 }
 
+.link{
+  height: 64px;
+  padding: 22px 10px;
+}
+
+.logo-part{
+  padding-left: 10px;
+  padding-right: 15px;
+  width: 158px;
+  display: flex;
+  justify-content: space-around;
+}
 .nav-logo{
   font-size: 1.88rem;
-  color: white;
-  margin: 10px;
+  padding-bottom: 8px;
+  //color: white;
+  //margin: 17px 10px;
 }
 
 .logo-name{
   font-size: 1.25rem;
   font-weight: 500;
-  margin-right: 30px;
+  width: 158px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  //margin-right: 30px;
+}
+
+.links, .navbar> ul{
+  //height: 64px;
+}
+
+.selected-nav{
+  background-color: #1E88E5;
+  //height: 64px;
 }
 
 .search{
-  position: fixed;
-  top: 15px;
-  right: 20%;
+  //position: fixed;
+  //top: 20px;
+  //right: 75.9px;
+  color: white;
+  border: white 1px solid;
+  border-radius: 50px;
+  width: 234.7px;
+  height: 25px;
+  padding-left: 32px;
+  background-color: #1E88E5;
 }
 
-.logout{
-  position: fixed;
-  top: 15px;
-  right: 20px;
+.navbar .logout{
+  //position: fixed;
+  //top: 22px;
+  margin-right: 10.1px;
+  margin-left: 13.8px;
+  border: none;
+  background-color: #2196F3;
+
 }
+.logout a{
+  color: white;
+}
+
+.navbar .fa-search{
+  height: 17px;
+  width: 16px;
+  position: fixed;
+  right: 288.6px;
+  top: 24px;
+  color: white;
+}
+
+//----------------player
 
 .footer{
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: aquamarine;
-  height: 50px;
+  background-color: #FBFBFB;
+  height: 60px;
+  z-index: 10;
 }
 
 .thumbnail{
@@ -116,6 +210,7 @@ input{
   position: fixed;
   bottom: 5px;
   left: 30%;
+  width: 60%;
 }
 
 .songcard{
@@ -131,6 +226,9 @@ input{
   width: 200px;
   height: 85px;
   margin: 10px 10px;
+  background-size: cover;
+  background-position: 50%;
+  background-repeat: no-repeat;
 }
 
 .song-thumbnail{
@@ -169,38 +267,84 @@ width: 17px;
 
 .categories{
   position: fixed;
-  top: 50px;
+  top: 64px;
   left: 0;
   width: 100%;
   height: 30px;
-  background-color: #afffe2;
+  background-color: #DDE4E6;
   display: flex;
-  justify-content: space-around;
+  //justify-content: space-around;
+  z-index: 10;
+  color: black;
+}
+
+.selected-genre{
+  //border-bottom: solid 1px black;
+text-decoration: underline;
 }
 
 .categories li{
   display: flex;
   align-self: center;
+  padding-left: 10px;
+  padding-right: 29px;
+}
+
+.categories a{
+  color: black;
+  font-weight: 300;
+}
+
+.genre-title{
+  padding: 30px;
+  font-size: 1.44rem;
 }
 
 .songs{
+  //max-width: 996px;
+  //max-height: 680px;
+  margin-top: -10px;
+  //overflow: scroll;
+  padding-bottom: 60px;
+}
+
+.songs ul{
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  width: 95%;
-  height: 80%;
-  margin: 10px auto;
-  overflow: hidden;
 }
 
 .page-num{
-  width: 100%;
   display: flex;
-  justify-content: center;
+  width: 380px;
+  justify-content: space-between;
+  margin: 0 auto;
+  padding-top: 46px;
+  padding-bottom: 15px;
+}
+
+.explore-comp{
+  padding-bottom: 60px;
 }
 
 .page-num p{
   display: inline-block;
+  font-size: 0.88rem;
+  align-self: center;
+}
+
+.page-num button{
+  width: 87px;
+  height: 30px;
+  font-size: 0.81rem;
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 3px;
+}
+
+.page-num button:disabled{
+  background-color: #D8D8D8;
 }
 
 .sign{
@@ -232,8 +376,6 @@ display: block;
   font-size: 1.81rem;
   margin-bottom: 20px;
 }
-
-
 
 .register label{
   display: block;

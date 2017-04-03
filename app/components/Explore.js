@@ -1,7 +1,7 @@
 import React from 'react';
-import SongCard from './SongCard';
-import Topbar from './Topbar';
-import Player from './Player';
+import SongsComp from './SongsComp';
+
+import {NavLink} from 'react-router-dom';
 
 export default class Explore extends React.Component {
   constructor() {
@@ -9,7 +9,9 @@ export default class Explore extends React.Component {
     this.state = {
       countdownTillLoading: 5,
       songs: [],
-      songsLoading: 'loading'
+      songsLoading: 'loading',
+      offset: 0,
+      limit: 15
     };
   }
 
@@ -17,12 +19,30 @@ export default class Explore extends React.Component {
     this.loadSongs();
   }
 
-  loadSongs(){
-    this.setState({ songsLoading: 'loading'});
-    const xhr = new XMLHttpRequest();
+  nextPage() {
+    this.setState({
+      offset: this.state.offset + this.state.limit,
+      limit: this.state.limit + 15
+    })
+  }
 
-    xhr.open('GET', 'https://create-bootcamp-songcloud-server.now.sh/tracks?genre=trance');
+  prevPage() {
+    this.setState({
+      offset: this.state.offset - 15,
+      limit: this.state.limit - 15
+    })
+  }
+
+  loadSongs() {
+    const genre = this.props.match.params.genre.toString();
+    let offset = this.state.offset;
+    let limit = this.state.limit;
+    console.log(genre);
+    this.setState({songsLoading: 'loading'});
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', `https://api.soundcloud.com/tracks?client_id=2t9loNQH90kzJcsFCODdigxfp325aq4z&limit=${limit}&offset=${offset}&tags=${genre}`);
     xhr.addEventListener('load', () => {
+      console.log('loaded?');
       this.setState({songs: JSON.parse(xhr.responseText), songsLoading: 'loaded'});
     });
     xhr.addEventListener('error', () => {
@@ -32,9 +52,19 @@ export default class Explore extends React.Component {
     xhr.send();
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.match.params.genre === this.props.match.params.genre) {
+      return;
+    }
+    else {
+      this.loadSongs();
+    }
+
+  }
+
   waitForLoading() {
     setTimeout(() => {
-      this.setState({ countdownTillLoading: this.state.countdownTillLoading - 1});
+      this.setState({countdownTillLoading: this.state.countdownTillLoading - 1});
       if (this.state.countdownTillLoading === 0) {
         this.setState({countdownTillLoading: 5});
         this.loadSongs();
@@ -46,41 +76,40 @@ export default class Explore extends React.Component {
   }
 
   render() {
+    // this.loadSongs();
+
     switch (this.state.songsLoading) {
       case 'loading':
-        return <div>Loading...</div>;
+        return <div className="loading"><i className="fa fa-spinner fa-pulse fa-3x fa-fw"> </i></div>;
       case 'error':
-        return <div>Error! please <button type="button" onClick={ () => this.waitForLoading() }>try again</button>, or wait {this.state.countdownTillLoading} seconds</div>;
+        return <div>Error! please
+          <button type="button" onClick={ () => this.waitForLoading() }>try again</button>
+          , or wait {this.state.countdownTillLoading} seconds</div>;
       case 'loaded':
         return (
           <div className="explore-comp">
-            <Topbar/>
             <ul className="categories">
-              <li>category</li>
-              <li>category</li>
-              <li>category</li>
-              <li>category</li>
-              <li>category</li>
-              <li>category</li>
+              <li>Genres:</li>
+              <li><NavLink to="/explore/indie" activeClassName="selected-genre">Indie</NavLink></li>
+              <li><NavLink to="/explore/pop" activeClassName="selected-genre">Pop</NavLink></li>
+              <li><NavLink to="/explore/ambient" activeClassName="selected-genre">Ambient</NavLink></li>
+              <li><NavLink to="/explore/dubstep" activeClassName="selected-genre">Dubstep</NavLink></li>
+              <li><NavLink to="/explore/trance" activeClassName="selected-genre">Trance</NavLink></li>
+              <li><NavLink to="/explore/house" activeClassName="selected-genre">House</NavLink></li>
             </ul>
-            <ul className="songs">
-            {
-              this.state.songs.map((song, i) => <li  key={ song.id }>
-                <SongCard
-                  title={ song.title.slice(0, 30) }
-                  duration={ song.duration }
-                  artwork_url={ song.artwork_url }
-                />
-                </li>
-                )}
-          </ul>
+            <div className="genre-title">
+              Genre: { this.props.match.params.genre.toString().charAt(0).toUpperCase() + this.props.match.params.genre.toString().slice(1) }</div>
+            <SongsComp
+              songs={ this.state.songs }/>
             <div className="page-num">
-              <button type="button" className="back">previous</button>
-              <p>page number</p>
-              <button type="button" className="next">next</button>
+              <button type="button" className="back" onClick={() => this.prevPage(this)}
+                      disabled={this.state.offset === 0}>Prev
+              </button>
+              <p>page {this.state.limit / 15}</p>
+              <button type="button" className="next" onClick={ () => this.nextPage(this)}>Next</button>
             </div>
-            <Player/>
           </div>
         );
     }
-  }}
+  }
+}

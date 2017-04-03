@@ -16,7 +16,7 @@ export default function Signup() {
          Password
          <input type="password" className="pass"/>
        </label>
-       <button type="submit" className="signup-btn">Continue</button>
+       <button type="submit" className="signup-btn"><NavLink to="explore">Continue</NavLink></button>
      </form>
      <footer>
        <h3>Already have an account?</h3>
