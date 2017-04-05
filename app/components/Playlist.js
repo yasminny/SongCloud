@@ -3,12 +3,26 @@
  */
 import SongsComp from './SongsComp';
 
-export default function Playlist(props){
-  return(
-    <div>
-      <h2>{props.listTitle}</h2>
-      <SongsComp
-        songs={ props.songs }/>
-    </div>
-  );
+export default class Playlist extends React.Component{
+  constructor() {
+    super();
+    this.state = {
+      isPlaylistClicked: false
+    }
+  }
+
+
+  render(){
+    return(
+      <div>
+        <h2>{this.props.playlist.title}</h2>
+        <SongsComp
+          updateCurrentTrack={ this.props.updateCurrentTrack }
+          mode={ 'playlist'}
+          playlist={ this.props.playlist }
+          // updateSelectedSong={ props.updateSelectedSong }
+          songs={ this.props.playlist.songs }/>
+      </div>
+    );
+}
 }

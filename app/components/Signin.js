@@ -10,7 +10,7 @@ export default function Signin() {
        <h2>Sign in</h2>
        <label>
          Email
-         <input type="text" className="user-name"/>
+         <input type="email" className="user-name"/>
        </label>
        <label>
          Password

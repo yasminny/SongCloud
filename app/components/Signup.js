@@ -10,7 +10,7 @@ export default function Signup() {
        <h2>Create account</h2>
        <label>
          Email
-         <input type="text" className="user-name"/>
+         <input type="email" className="user-name"/>
        </label>
        <label>
          Password

@@ -15,7 +15,7 @@ export default function Topbar() {
          </ul>
        </div>
        <div className="right">
-         <input type="text" className="search" value="SEARCH"/>
+         <input type="text" className="search" placeholder="SEARCH"/>
          <span className="fa fa-search" aria-hidden="true"> </span>
          <button type="button" className="logout"><NavLink to="/signin">Logout</NavLink></button>
        </div>

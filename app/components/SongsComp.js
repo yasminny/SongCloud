@@ -8,13 +8,22 @@ export default function SongsComp(props){
   return <div className="songs">
       <ul>
         {
-          props.songs.map((song, i) => <li  key={ song.id }>
+          props.songs.map((song, i) => {
+              const imgUrl = song.artwork_url? song.artwork_url.replace('large','t300x300'): song.artwork_url;
+            return <li  key={ song.id }>
               <SongCard
-                title={ song.title.slice(0, 30) }
+                song={song}
+                title={ song.title.slice(0, 25) }
                 duration={ song.duration }
-                artwork_url={ song.artwork_url.replace('large', 't300x300') }
+                artwork_url={ imgUrl }
+                updateCurrentTrack={ props.updateCurrentTrack }
+                // updateSelectedSong={ props.updateSelectedSong }
+                // selectedSong={ props.selectedSong }
+                mode={ props.mode }
+                playlists={ props.playlists }
               />
             </li>
+          }
           )}
       </ul>
     </div>;

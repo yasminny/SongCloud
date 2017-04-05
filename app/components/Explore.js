@@ -1,6 +1,7 @@
 import React from 'react';
 import SongsComp from './SongsComp';
 
+
 import {NavLink} from 'react-router-dom';
 
 export default class Explore extends React.Component {
@@ -21,15 +22,13 @@ export default class Explore extends React.Component {
 
   nextPage() {
     this.setState({
-      offset: this.state.offset + this.state.limit,
-      limit: this.state.limit + 15
+      offset: this.state.offset + this.state.limit
     })
   }
 
   prevPage() {
     this.setState({
-      offset: this.state.offset - 15,
-      limit: this.state.limit - 15
+      offset: this.state.offset - this.state.limit
     })
   }
 
@@ -52,11 +51,13 @@ export default class Explore extends React.Component {
     xhr.send();
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.match.params.genre === this.props.match.params.genre) {
-      return;
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.match.params.genre !== this.props.match.params.genre) {
+      this.setState({ offset: 0 }, ()=> {
+        this.loadSongs();
+      });
     }
-    else {
+    if(prevState.offset !== this.state.offset){
       this.loadSongs();
     }
 
@@ -100,14 +101,21 @@ export default class Explore extends React.Component {
             <div className="genre-title">
               Genre: { this.props.match.params.genre.toString().charAt(0).toUpperCase() + this.props.match.params.genre.toString().slice(1) }</div>
             <SongsComp
-              songs={ this.state.songs }/>
+              songs={ this.state.songs }
+              updateCurrentTrack={ this.props.updateCurrentTrack }
+              updateSelectedSong={ this.props.updateSelectedSong }
+              updateClickedBtn={ this.props.updateClickedBtn }
+              mode={ 'explore' }
+              playlists={ this.props.playlists }
+            />
             <div className="page-num">
               <button type="button" className="back" onClick={() => this.prevPage(this)}
                       disabled={this.state.offset === 0}>Prev
               </button>
-              <p>page {this.state.limit / 15}</p>
+              <p>page {this.state.offset / this.state.limit + 1}</p>
               <button type="button" className="next" onClick={ () => this.nextPage(this)}>Next</button>
             </div>
+
           </div>
         );
     }

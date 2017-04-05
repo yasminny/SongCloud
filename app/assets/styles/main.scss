@@ -50,6 +50,13 @@ img {
   height: auto;
 }
 
+button{
+  border: none;
+  padding: none;
+}
+
+//------------------------------loading view
+
 .loading{
   display: flex;
 }
@@ -61,7 +68,7 @@ img {
   font-size: 5rem;
 }
 
-//----------topBar
+//---------------------------------------topBar
 
 .navbar{
   position: fixed;
@@ -181,10 +188,12 @@ img {
   color: white;
 }
 
-//----------------player
+//------------------------------------------player
 
 .footer{
+  display: flex;
   position: fixed;
+  align-items: center;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -200,9 +209,9 @@ img {
 
 .footer-title{
   display: inline-block;
-  left: 20%;
-  padding-bottom: 5px;
-  padding-left: 15px;
+  //left: 20%;
+  //padding-bottom: 5px;
+  //padding-left: 15px;
   margin: 0;
 }
 
@@ -212,6 +221,25 @@ img {
   left: 30%;
   width: 60%;
 }
+
+.player-img{
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  margin: 5px 10px 5px 30px;
+  background-size: cover;
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+
+.footer-title{
+  display: flex;
+  font-size: 0.69rem;
+  //padding-bottom: 24px;
+  color: #4A4A4A;
+}
+
+//-----------------------------------songcard
 
 .songcard{
   width: 220px;
@@ -231,16 +259,10 @@ img {
   background-repeat: no-repeat;
 }
 
-.song-thumbnail{
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-}
-
 .details{
   margin-left: 10px;
   display: inline-block;
-  width: 85%;
+  width: 75%;
 }
 
 .songcard h1, .songcard h2{
@@ -252,18 +274,77 @@ img {
 }
 
 .add-to-list{
+  color: #2196F3;
   float: right;
-width: 17px;
-  height: 17px;
+//width: 20px;
+//  height: 20px;
   font-size: large;
-  padding: 0;
-
-  margin: 0;
+  //margin: 10px;
+background-color: white;
+  border: none;
+  //margin: 0;
 }
 
 .add-to-list i{
-  color: #2196F3;
+
+  width: 17px;
+  height: 17px;
 }
+
+.checkbox{
+  width: 130px;
+  height: 110px;
+  background: #FFFFFF;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
+  display: inline-block;
+  margin-left: -96px;
+  top: 127px;
+  z-index: 10;
+  position: absolute;
+}
+
+.checkbox-header p{
+  font-size: 0.69rem;
+  color: #4A4A4A;
+  padding-top: 10px;
+  padding-left: 10px;
+  font-weight: 600;
+}
+
+.checkbox-header button{
+  font-size: 9px;
+  color: #2196F3;
+  background-color: white;
+  cursor: pointer;
+  padding-bottom: 3px;
+  padding-left: 10px;
+}
+
+.checkbox form{
+  margin: 0 10px;
+  border-top: 1px solid #E0E0E0;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding-top: 6.2px;
+}
+
+.checkbox form p{
+  font-size: 9px;
+  color: #4A4A4A;
+  display: inline-block;
+  padding-left: 5px;
+  line-height: 12px;
+}
+
+.checkbox form div{
+  line-height: 12px;
+  display: flex;
+
+}
+
+
+//--------------------------------explore genre
 
 .categories{
   position: fixed;
@@ -443,5 +524,59 @@ display: block;
 
 .explore-comp{
   width: 100%;
+}
+
+
+.playlists-comp, .playlists-comp-main{
+  width: 100%;
+}
+
+.playlists-comp-main{
+  margin-top: -30px;
+}
+
+.right-playlists{
+  margin-left: 200px;
+  display: block;
+  //justify-content: space-between;
+}
+
+.sidebar{
+  box-shadow: inset -1px 0 0 0 #D8D8D8;
+  position: absolute;
+  width: 200px;
   height: 100%;
 }
+
+.sidebar aside{
+  border-bottom: 1px solid #D8D8D8;
+  margin: 0 10px;
+}
+
+.playlist-btn-section{
+  width: 180px;
+  height: 30px;
+  margin: 25px 0 18px 0;
+
+  background-color: #2196F3;
+  color: white;
+  text-align: center;
+}
+
+.playlist-btn-section button{
+  background-color: #2196F3;
+  color: white;
+  text-align: center;
+  //line-height: 25px;
+  width: 180px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.hidden{
+  display: none;
+}
+
+
+
+

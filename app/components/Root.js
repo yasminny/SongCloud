@@ -1,11 +1,9 @@
-import Signup from './Signup';
-import Signin from './Signin';
 import Explore from './Explore';
 import Playlists from './Playlists';
 import Topbar from './Topbar';
 import Player from './Player';
 import {
-  BrowserRouter, Redirect,
+  Redirect,
   Route,
   Switch
 } from 'react-router-dom';
@@ -13,41 +11,79 @@ import {
 import React from 'react';
 
 export default class Root extends React.Component {
-  constructor(){
+  constructor() {
     super();
-    this.state= {
-      currentTrack: null
+
+    this.updateCurrentTrack = this.updateCurrentTrack.bind(this);
+    // this.updateSelectedSong = this.updateSelectedSong.bind(this);
+    // this.updateClickedBtn = this.updateClickedBtn.bind(this);
+
+    this.state = {
+      currentTrack: {},
+      // selectedSong: {},
+      // clickedBtn: {},
+      playlists: [{
+        id: 1,
+        title: 'test',
+        songs: []
+      }]
     }
   }
 
-render(){
-  return (
-    <BrowserRouter>
+  updateCurrentTrack(newSong) {
+    this.setState({
+      currentTrack: Object.assign({}, newSong)
+    })
+  }
+
+  // updateSelectedSong(newSong) {
+  //   this.setState({
+  //     selectedSong: Object.assign({}, newSong)
+  //   })
+  // }
+  //
+  // updateClickedBtn(btn) {
+  //   this.setState({
+  //     clickedBtn: Object.assign({}, btn)
+  //   })
+  // }
+
+  render() {
+    return (
       <div className="main-root">
         <main>
+          <Topbar/>
           <Switch>
-            <Route path="/signin" component={ Signin }/>
-            <Route path="/signup" component={ Signup }/>
-            <Route path="/" component={()=> {
-              return <div>
-                  <Topbar/>
-                  <Route exact path="/" component={ ()=>(
-                    <Redirect to="/explore/house"/>
-                  ) }/>
-
-                  <Route path="/explore/:genre" component={ Explore }/>
-                  <Route exact path="/explore" component={ ()=>(
-                    <Redirect to="/explore/house"/>
-                  ) }/>
-                  <Route path="/playlists" component={ Playlists }/>
-                  <Player track={ this.state.currentTrack }/>
-                </div>
+            <Route exact path="/" component={() => {
+              return <Redirect to="/explore"/>
             }}/>
+            <Route exact path="/explore" component={ () => {
+              return <Redirect to="/explore/house"/>
+            }}/>
+            {/*not a comp as I cant pass props without a function like the update function or the match object*/}
+            <Route path="/explore/:genre" render={(props) => {
+              return <Explore updateCurrentTrack={ this.updateCurrentTrack }
+                              // updateSelectedSong={ this.updateSelectedSong }
+                              // updateClickedBtn={ this.updateClickedBtn }
+                              // selectedSong={ this.state.selectedSong }
+                              // clickedBtn={ this.state.clickedBtn }
+                              {...props}
+                              playlists={ this.state.playlists }/>
+            }}/>
+            <Route exact path="/playlists" render={ () => {
+              return <Playlists playlists={ this.state.playlists }
+                                updateCurrentTrack={ this.updateCurrentTrack }
+                                // updateSelectedSong={ this.updateSelectedSong }
+                                // updateClickedBtn={ this.updateClickedBtn }
+                                // selectedSong={ this.state.selectedSong }
+                                // clickedBtn={ this.state.clickedBtn }
+                // data={ this.state.playlists }
+              />
+            } }/>
           </Switch>
+          <Player track={ this.state.currentTrack }/>
         </main>
-      </div>
-    </BrowserRouter>
-  );
-};
+      </div>);
+  };
 
 }
