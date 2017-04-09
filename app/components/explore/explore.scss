@@ -1,0 +1,84 @@
+@import 'assets/styles/colors';
+
+.explore-comp{
+  width: 100%;
+}
+
+.categories{
+  position: fixed;
+  top: 64px;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  background-color: $genreBg;
+  display: flex;
+  //justify-content: space-around;
+  z-index: 10;
+  color: $black;
+}
+
+.selected-genre{
+  //border-bottom: solid 1px black;
+  text-decoration: underline;
+}
+
+.categories li{
+  display: flex;
+  align-self: center;
+  padding-left: 10px;
+  padding-right: 29px;
+}
+
+.categories a{
+  color: $black;
+  font-weight: 300;
+}
+
+.genre-title{
+  padding: 30px;
+  font-size: 1.44rem;
+}
+
+.page-num{
+  display: flex;
+  width: 380px;
+  justify-content: space-between;
+  margin: 0 auto;
+  padding-top: 46px;
+  padding-bottom: 15px;
+}
+
+.explore-comp{
+  padding-bottom: 60px;
+}
+
+.page-num p{
+  display: inline-block;
+  font-size: 0.88rem;
+  align-self: center;
+}
+
+.page-num button{
+  width: 87px;
+  height: 30px;
+  font-size: 0.81rem;
+  background-color: $mainBlue;
+  color: $white;
+  border: none;
+  border-radius: 3px;
+}
+
+.page-num button:disabled{
+  background-color: $shadow;
+}
+
+.loading{
+  display: flex;
+}
+
+.fa-spinner{
+  color: $mainBlue;
+  margin: 50px auto;
+  display: inline-block;
+  font-size: 5rem;
+}

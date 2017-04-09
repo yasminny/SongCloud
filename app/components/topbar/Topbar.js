@@ -1,9 +1,12 @@
+import './topbar.scss';
 import {
   NavLink
 } from 'react-router-dom';
+import './topbar.scss';
+
 export default function Topbar() {
  return (
-   <div>
+   <div className="topbar-comp">
      <nav className="navbar">
        <div className="left">
          <ul className="menu">

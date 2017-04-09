@@ -1,0 +1,50 @@
+@import 'assets/styles/colors';
+
+.footer{
+  display: flex;
+  position: fixed;
+  align-items: center;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: $playerBg;
+  height: 60px;
+  z-index: 10;
+}
+
+.thumbnail{
+  float: left;
+  display: inline-block;
+}
+
+.footer-title{
+  display: inline-block;
+  //left: 20%;
+  //padding-bottom: 5px;
+  //padding-left: 15px;
+  margin: 0;
+}
+
+.player{
+  position: fixed;
+  bottom: 5px;
+  left: 30%;
+  width: 60%;
+}
+
+.player-img{
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  margin: 5px 10px 5px 30px;
+  background-size: cover;
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+
+.footer-title{
+  display: flex;
+  font-size: 0.69rem;
+  //padding-bottom: 24px;
+  color: $grey;
+}

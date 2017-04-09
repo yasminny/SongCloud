@@ -1,6 +1,6 @@
-import PlaylistSideBar from './PlaylistSideBar';
-import Playlist from './Playlist';
-
+import './playlists.scss';
+import PlaylistSideBar from '../playlistsidebar/PlaylistSideBar';
+import Playlist from '../playlist/Playlist';
 import React from 'react';
 
 export default class Playlists extends React.Component {
@@ -13,6 +13,7 @@ export default class Playlists extends React.Component {
     //   // songsLoading: 'empty',
     // };
   }
+
   //
   // componentDidMount() {
   //   // this.loadSongs();
@@ -47,21 +48,27 @@ export default class Playlists extends React.Component {
   //   }, 1000);
   // }
   createPlaylist() {
-    console.log('playlists',this.props.playlists.length);
+    // console.log('playlists',this.props.playlists.length);
 
     if (this.props.playlists.length > 0) {
-      console.log('playlist');
-      return <ul>
+      return <ul className="playlists-lists">
         {
-          this.props.playlists.map((playlist, i)=>{
-
-            return <Playlist
-              playlist={ playlist }
-              updateCurrentTrack={ this.props.updateCurrentTrack }
-              // updateSelectedSong={ this.props.updateSelectedSong }
-              // updateClickedBtn={ this.props.updateClickedBtn }
-              // songs={ playlist.songs }
-            />
+          this.props.playlists.map((playlist, i) => {
+            return <li key={ playlist.id }>
+              <Playlist
+                deletePlaylist={ this.props.deletePlaylist }
+                playlist={ playlist }
+                playlists={ this.props.playlists }
+                updateCurrentTrack={ this.props.updateCurrentTrack }
+                createNewPlaylist={ this.props.createNewPlaylist }
+                updateEditModePlaylist={ this.props.updateEditModePlaylist }
+                index={ i }
+                changeListTitle={ this.props.changeListTitle}
+                // updateSelectedSong={ this.props.updateSelectedSong }
+                // updateClickedBtn={ this.props.updateClickedBtn }
+                // songs={ playlist.songs }
+              />
+            </li>
           })
         }
       </ul>
@@ -81,8 +88,9 @@ export default class Playlists extends React.Component {
     //     , or wait {this.state.countdownTillLoading} seconds</div>;
     // case 'loaded':
     return (
-      <div className="playlists-comp-main">
-        <PlaylistSideBar/>
+      <div className="playlists-comp-main playlists-comp">
+        <PlaylistSideBar createNewPlaylist={ this.props.createNewPlaylist }
+        playlists={this.props.playlists }/>
         <div className="right-playlists">
           { this.createPlaylist() }
         </div>

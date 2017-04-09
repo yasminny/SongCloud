@@ -1,7 +1,6 @@
+import './explore.scss';
 import React from 'react';
-import SongsComp from './SongsComp';
-
-
+import SongsComp from '../songs/SongsComp';
 import {NavLink} from 'react-router-dom';
 
 export default class Explore extends React.Component {
@@ -77,14 +76,12 @@ export default class Explore extends React.Component {
   }
 
   render() {
-    // this.loadSongs();
-
     switch (this.state.songsLoading) {
       case 'loading':
         return <div className="loading"><i className="fa fa-spinner fa-pulse fa-3x fa-fw"> </i></div>;
       case 'error':
         return <div>Error! please
-          <button type="button" onClick={ () => this.waitForLoading() }>try again</button>
+          <button type="button" onClick={ this.waitForLoading }>try again</button>
           , or wait {this.state.countdownTillLoading} seconds</div>;
       case 'loaded':
         return (
@@ -103,8 +100,9 @@ export default class Explore extends React.Component {
             <SongsComp
               songs={ this.state.songs }
               updateCurrentTrack={ this.props.updateCurrentTrack }
-              updateSelectedSong={ this.props.updateSelectedSong }
-              updateClickedBtn={ this.props.updateClickedBtn }
+              // updateSelectedSong={ this.props.updateSelectedSong }
+              // updateClickedBtn={ this.props.updateClickedBtn }
+              createNewPlaylist={ this.props.createNewPlaylist }
               mode={ 'explore' }
               playlists={ this.props.playlists }
             />

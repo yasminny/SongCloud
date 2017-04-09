@@ -1,9 +1,9 @@
 /**
  * Created by NEXUS on 04/04/2017.
  */
-import Signup from './Signup';
-import Signin from './Signin';
-import Root from './Root';
+import Signup from '../signup/Signup';
+import Signin from '../signin/Signin';
+import Root from '../root/Root';
 import {
   BrowserRouter,
   Route,
@@ -13,7 +13,7 @@ import {
 export default function Routes() {
   return (
     <BrowserRouter>
-      <div className="main-root">
+      <div className="main-root routes-comp">
           <Switch>
             <Route path="/signin" component={ Signin }/>
             <Route path="/signup" component={ Signup }/>

@@ -1,0 +1,45 @@
+@import 'assets/styles/colors';
+
+.sidebar{
+  box-shadow: inset -1px 0 0 0 $shadow;
+  position: absolute;
+  width: 200px;
+  height: 100%;
+  padding-top: 25px;
+}
+
+.sidebar aside ul{
+  border-top: 1px solid $shadow;
+  margin: 0 10px;
+  padding-top: 16px;
+}
+
+.playlist-btn-section{
+  width: 180px;
+  height: 30px;
+  margin: 25px 0 18px 10px;
+
+  background-color: $mainBlue;
+  color: $white;
+  text-align: center;
+}
+
+.playlist-btn-section button{
+  background-color: $mainBlue;
+  color: $white;
+  text-align: center;
+  //line-height: 25px;
+  width: 180px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.sidebar li{
+  padding: 10px;
+  font-size: 0.94rem;
+}
+
+
+.playlists-lists{
+  margin: 20px 20px 0 20px;
+}

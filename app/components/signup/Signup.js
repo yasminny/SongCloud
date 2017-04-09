@@ -1,9 +1,10 @@
+import './signup.scss';
 import {
   NavLink
 } from 'react-router-dom';
 export default function Signup() {
  return (
-   <div className="sign register">
+   <div className="sign register signup-comp">
      <i className="fa fa-mixcloud big-logo" aria-hidden="true"/>
      <h1>SongCloud</h1>
      <form>

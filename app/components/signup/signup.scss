@@ -1,0 +1,95 @@
+@import 'assets/styles/colors';
+
+.sign{
+  background-color: $white;
+  position: fixed;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  //justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+
+.sign-in h1{
+  display: block;
+}
+
+.register{
+  //flex-wrap: wrap;
+}
+
+.register form{
+  width: 416px;
+}
+
+.register form h2{
+  font-size: 1.81rem;
+  margin-bottom: 20px;
+}
+
+.register label{
+  display: block;
+  padding: 20px 0;
+  color: $mainBlue;
+  font-size: 0.81rem;
+}
+
+.register input{
+  display: block;
+  width: 100%;
+  height: 40px;
+  border-bottom: solid 1px $mainBlue;
+  font-size: 1.06rem;
+}
+
+.register h1{
+  color: $mainBlue;
+  font-size: 2.5rem;
+  font-weight: 500;
+  margin: 0;
+  padding-bottom: 48px;
+  //margin-top: -30px;
+}
+
+.signup-btn{
+  background-color: $mainBlue;
+  border: none;
+  text-transform: uppercase;
+  color: $white;
+  padding: 6.5px;
+  margin: 46px 164.5px 35px 164.5px;
+  font-size: 0.94rem;
+  letter-spacing: 0.65px;
+}
+
+.signup-btn a{
+  color: $white;
+}
+
+.big-logo{
+  color: $mainBlue;
+  font-size: 6.25rem;
+  padding-top: 30px;
+}
+
+.register footer{
+  width: 416px;
+  background-color: $white;
+}
+
+.register footer h3{
+  display: inline-block;
+  font-weight: 300;
+  font-size: 0.88rem;
+}
+
+.register footer button{
+  color: $mainBlue;
+  background-color: $white;
+  border: none;
+  margin-left: 20px;
+  font-size: 0.88rem;
+}

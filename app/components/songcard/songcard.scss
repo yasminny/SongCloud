@@ -1,0 +1,111 @@
+@import 'assets/styles/colors';
+
+.songcard{
+  width: 220px;
+  height: 140px;
+  display: inline-block;
+  margin: 15px 33.5px;
+  border: 1px solid $shadow;
+  position: relative;
+}
+
+.song-img{
+  width: 200px;
+  height: 85px;
+  margin: 10px 10px;
+  background-size: cover;
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+
+.details{
+  margin-left: 10px;
+  display: inline-block;
+  width: 75%;
+}
+
+.songcard h1, .songcard h2{
+  font-size: 0.69rem;
+  color: $grey;
+  //letter-spacing: 0.94rem;
+  margin: 0;
+  display: block;
+}
+
+.add-to-list{
+  color: $shadow;
+  float: right;
+  //width: 20px;
+  //  height: 20px;
+  font-size: large;
+  //margin: 10px;
+  background-color: $white;
+  border: none;
+  //margin: 0;
+}
+
+.add-to-list:hover{
+  color: $darkGrey;
+}
+
+.add-to-list i{
+
+  width: 17px;
+  height: 17px;
+}
+
+.checkbox{
+  width: 130px;
+  height: 110px;
+  background: $white;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
+  display: inline-block;
+  margin-left: -96px;
+  top: 127px;
+  z-index: 10;
+  position: absolute;
+}
+
+.checkbox-header p{
+  font-size: 0.69rem;
+  color: $grey;
+  padding-top: 10px;
+  padding-left: 10px;
+  font-weight: 600;
+}
+
+.checkbox-header button{
+  font-size: 9px;
+  color: $mainBlue;
+  background-color: $white;
+  cursor: pointer;
+  padding-bottom: 3px;
+  padding-left: 10px;
+}
+
+.checkbox form{
+  margin: 0 10px;
+  border-top: 1px solid $border;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding-top: 6.2px;
+}
+
+.checkbox form p{
+  font-size: 9px;
+  color: $grey;
+  display: inline-block;
+  padding-left: 5px;
+  line-height: 12px;
+}
+
+.checkbox form div{
+  line-height: 12px;
+  display: flex;
+
+}
+
+.blue-heart, .blue-heart:hover, .fa-heart, .fa-heart:hover{
+  color: $mainBlue;
+}

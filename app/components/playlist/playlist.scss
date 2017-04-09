@@ -1,0 +1,92 @@
+@import 'assets/styles/colors';
+
+.playlist-comp{
+  display: block;
+  width: 100%;
+}
+
+.playlist-title{
+  width: 100%;
+  height: 64px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 2px 0 rgba(0,0,0,0.12);
+  line-height: 64px;
+  padding-left:20px;
+}
+
+
+.playlist-comp h2{
+  display: inline-block;
+  font-size: 1.38rem;
+  font-weight: 300;
+}
+
+.delete-list-btn{
+  width: 51px;
+  height: 18px;
+  display: none;
+  float: right;
+  cursor: pointer;
+  border-radius: 2px;
+  //margin-right: 18px;
+  margin: 22px 18px;
+  border: none;
+  background-color: $white;
+  color: $red;
+  font-size: 0.81rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.delete-list-btn:after{
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, .5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.playlist-title:hover .delete-list-btn{
+  display: inline-block;
+}
+
+.delete-list-btn:focus{
+  background-color: $shadow;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 1;
+  }
+  20% {
+    transform: scale(25, 25);
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(40, 40);
+  }
+}
+
+.delete-list-btn:focus:not(:active)::after {
+  animation: ripple 1s ease-out;
+}
+
+.num-songs-in-list{
+  height: 22px;
+  width: 22px;
+  border-radius: 50%;
+  background-color: $mainBlue;
+  color: $white;
+}
+
+.list-songs{
+  min-height: 196px;
+  padding-top: 16px;
+}

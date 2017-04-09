@@ -1,0 +1,57 @@
+
+main, header, footer, figcaption, section, div, ul, li, h2, h3, p, a {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  font-family: 'Roboto', sans-serif;
+  list-style: none;
+  text-decoration: none;
+}
+
+html,
+body {
+  font: 100% 'Source Sans Pro', sans-serif;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+//input[type=email], input[type=text], input[type=password], a:not([class*=btn]){
+//  background: none;
+//}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  padding-top: 94px;
+  padding-bottom: 50px;
+}
+
+input{
+  border: none;
+}
+
+a:link, a:visited, a:hover, a:target{
+  color: #2196F3;
+}
+
+#root, .main-root, main{
+  width: 100%;
+  height: 100%;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+button{
+  border: none;
+  padding: 0;
+}

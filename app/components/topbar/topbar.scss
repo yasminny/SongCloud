@@ -1,0 +1,95 @@
+@import 'assets/styles/colors.scss';
+
+.navbar{
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #2196F3;
+  height: 64px;
+  z-index: 10;
+}
+
+.right{
+  display: flex;
+  align-items: center;
+}
+
+.menu{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.menu li{
+  line-height: 64px;
+}
+
+.menu a{
+  color: $white;
+
+  height: 64px;
+  font-size: 0.94rem;
+}
+
+.link{
+  height: 64px;
+  padding: 22px 10px;
+}
+
+.logo-part{
+  padding-left: 10px;
+  padding-right: 15px;
+  width: 158px;
+  display: flex;
+  justify-content: space-around;
+}
+.nav-logo{
+  font-size: 1.88rem;
+  padding-bottom: 8px;
+}
+
+.logo-name{
+  font-size: 1.25rem;
+  font-weight: 500;
+  width: 158px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selected-nav{
+  background-color: $darkenBlue;
+}
+
+.search{
+  color: $white;
+  border: $white 1px solid;
+  border-radius: 50px;
+  width: 234.7px;
+  height: 25px;
+  padding-left: 32px;
+  background-color: $darkenBlue;
+}
+
+.navbar .logout{
+  margin-right: 10.1px;
+  margin-left: 13.8px;
+  border: none;
+  background-color: $mainBlue;
+
+}
+.logout a{
+  color: $white;
+}
+
+.navbar .fa-search{
+  height: 17px;
+  width: 16px;
+  position: fixed;
+  right: 278.6px;
+  top: 24px;
+  color: $white;
+}

@@ -1,0 +1,10 @@
+.songs{
+  margin-top: -10px;
+  padding-bottom: 60px;
+}
+
+.songs ul{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
