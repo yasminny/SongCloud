@@ -46,7 +46,7 @@ export default class Root extends React.Component {
     const playlistSongs = newSong ? [newSong] : [];
     newPlaylists.push({
       id: uuid(),
-      title: 'untitled',
+      title: 'Untitled',
       isFocusMode: true,
       songs: playlistSongs
     });
@@ -65,7 +65,7 @@ export default class Root extends React.Component {
   }
 
   updateEditModePlaylist(index){
-    let oldPlaylist = this.state.playlists;
+    let oldPlaylist = [...this.state.playlists];
     oldPlaylist[index].isFocusMode = !oldPlaylist[index].isFocusMode;
     this.setState({
       playlists: oldPlaylist
@@ -73,7 +73,7 @@ export default class Root extends React.Component {
   }
 
   deletePlaylist(index){
-    let oldPlaylist = this.state.playlists;
+    let oldPlaylist = [...this.state.playlists];
     oldPlaylist.splice(index, 1);
     this.setState({
       playlists: oldPlaylist
@@ -81,7 +81,7 @@ export default class Root extends React.Component {
   }
 
   changeListTitle(value, index){
-    let oldPlaylist = this.state.playlists;
+    let oldPlaylist = [...this.state.playlists];
     oldPlaylist[index].title = value;
     this.setState({
       playlists: oldPlaylist

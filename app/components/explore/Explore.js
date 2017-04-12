@@ -35,12 +35,10 @@ export default class Explore extends React.Component {
     const genre = this.props.match.params.genre.toString();
     let offset = this.state.offset;
     let limit = this.state.limit;
-    console.log(genre);
     this.setState({songsLoading: 'loading'});
     const xhr = new XMLHttpRequest();
     xhr.open('GET', `https://api.soundcloud.com/tracks?client_id=2t9loNQH90kzJcsFCODdigxfp325aq4z&limit=${limit}&offset=${offset}&tags=${genre}`);
     xhr.addEventListener('load', () => {
-      console.log('loaded?');
       this.setState({songs: JSON.parse(xhr.responseText), songsLoading: 'loaded'});
     });
     xhr.addEventListener('error', () => {
@@ -58,6 +56,9 @@ export default class Explore extends React.Component {
     }
     if(prevState.offset !== this.state.offset){
       this.loadSongs();
+    }
+    if (this.catElm){
+      this.catElm.scrollIntoView();
     }
 
   }
@@ -86,7 +87,7 @@ export default class Explore extends React.Component {
       case 'loaded':
         return (
           <div className="explore-comp">
-            <ul className="categories">
+            <ul className="categories" ref={(cat)=> this.catElm = cat }>
               <li>Genres:</li>
               <li><NavLink to="/explore/indie" activeClassName="selected-genre">Indie</NavLink></li>
               <li><NavLink to="/explore/pop" activeClassName="selected-genre">Pop</NavLink></li>

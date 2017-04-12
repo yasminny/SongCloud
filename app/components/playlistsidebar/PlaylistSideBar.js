@@ -21,7 +21,7 @@ export default class PlaylistSideBar extends React.Component{
       <div className="sidebar playlists-sidebar-comp">
         <aside >
           <div className="playlist-btn-section">
-            <button type="button" className="add-playlist-btn" onClick={this.props.createNewPlaylist }>Add new playlist</button>
+            <button type="button" className="add-playlist-btn" onClick={()=> this.props.createNewPlaylist() }>Add new playlist</button>
           </div>
           <ul>
             { this.createPlayListsTitle() }

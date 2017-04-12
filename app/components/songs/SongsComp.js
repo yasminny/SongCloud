@@ -26,6 +26,9 @@ export default function SongsComp(props){
             </li>
           }
           )}
+          <li className="empty"/>
+        <li className="empty"/>
+        <li className="empty"/>
       </ul>
     </div>;
 

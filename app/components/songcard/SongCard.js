@@ -82,9 +82,8 @@ export default class SongCard extends React.Component {
              onClick={ () => this.props.updateCurrentTrack(this.props.song)}/>
         <div className="details">
           <h1>{this.props.title}</h1>
-          <h2><i className="fa fa-clock-o" aria-hidden="true"/> {() => this.msToTime()}</h2>
+          <h2><i className="fa fa-clock-o" aria-hidden="true"/> { this.msToTime()}</h2>
         </div>
-
         <button type="button" className={ openHeartClassName } onClick={ this.updateClickedHeart }/>
         <div className={ dropdownClassName }>
           { this.checkboxHeader() }

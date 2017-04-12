@@ -79,14 +79,25 @@
 }
 
 .num-songs-in-list{
+  font-size: 0.75rem;
+  line-height: 1;
+  transform: translateY(-18px);
+  display: inline-block;
   height: 22px;
   width: 22px;
   border-radius: 50%;
   background-color: $mainBlue;
   color: $white;
+  padding-top: 5px;
+  text-align: center;
 }
 
 .list-songs{
   min-height: 196px;
   padding-top: 16px;
+}
+
+
+form{
+  display: inline-block;
 }

@@ -24,7 +24,7 @@
   width: 75%;
 }
 
-.songcard h1, .songcard h2{
+.songcard .details h1, .songcard .details h2{
   font-size: 0.69rem;
   color: $grey;
   //letter-spacing: 0.94rem;
@@ -48,8 +48,7 @@
   color: $darkGrey;
 }
 
-.add-to-list i{
-
+.add-to-list .fa-clock-o{
   width: 17px;
   height: 17px;
 }

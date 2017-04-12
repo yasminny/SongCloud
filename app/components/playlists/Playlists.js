@@ -74,7 +74,7 @@ export default class Playlists extends React.Component {
       </ul>
     }
     else {
-      return <h1>Why don't you create some nice playlist?</h1>
+      return <h1 className="no-playlists">Why don't you create some nice playlist?</h1>
     }
   }
 

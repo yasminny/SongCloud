@@ -2,7 +2,8 @@
 
 .sidebar{
   box-shadow: inset -1px 0 0 0 $shadow;
-  position: absolute;
+  position: fixed;
+
   width: 200px;
   height: 100%;
   padding-top: 25px;
