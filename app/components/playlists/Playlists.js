@@ -59,7 +59,7 @@ export default class Playlists extends React.Component {
                 deletePlaylist={ this.props.deletePlaylist }
                 playlist={ playlist }
                 playlists={ this.props.playlists }
-                updateCurrentTrack={ this.props.updateCurrentTrack }
+                // updateCurrentTrack={ this.props.updateCurrentTrack }
                 createNewPlaylist={ this.props.createNewPlaylist }
                 updateEditModePlaylist={ this.props.updateEditModePlaylist }
                 index={ i }

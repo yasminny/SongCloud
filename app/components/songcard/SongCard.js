@@ -1,18 +1,20 @@
 import './songcard.scss';
 import React from 'react';
+import store from '../../store';
+import uuid from 'uuid';
+import { connect } from 'react-redux';
 
-export default class SongCard extends React.Component {
+class SongCard extends React.Component {
   constructor() {
     super();
     this.state = {
       isHeartClicked: false,
-      relatedPlaylists: []
+      // relatedPlaylists: []
       // isInPlaylist: false
     };
 
     this.updateClickedHeart = this.updateClickedHeart.bind(this);
     // this.updateRelatedPlaylists = this.updateRelatedPlaylists.bind(this);
-
   }
 
 
@@ -71,15 +73,17 @@ export default class SongCard extends React.Component {
   }
 
 
+
+
   render() {
-    let heartClassName = this.state.relatedPlaylists.length > 0 ? "add-to-list fa fa-heart blue-heart" : "add-to-list fa fa-heart-o";
+    let heartClassName = this.state.relatedPlaylists !== undefined ? "add-to-list fa fa-heart blue-heart" : "add-to-list fa fa-heart-o";
     let openHeartClassName = this.state.isHeartClicked ? "add-to-list fa fa-heart-o blue-heart" : heartClassName;
     let dropdownClassName = this.state.isHeartClicked ? 'checkbox' : 'checkbox hidden';
 
     return (
       <div className="songcard songcard-comp">
         <div className="song-img" style={{'backgroundImage': `url( ${this.props.artwork_url})`}}
-             onClick={ () => this.props.updateCurrentTrack(this.props.song)}/>
+             onClick={ () => this.props.setCurrentTrack(this.props.song)}/>
         <div className="details">
           <h1>{this.props.title}</h1>
           <h2><i className="fa fa-clock-o" aria-hidden="true"/> { this.msToTime()}</h2>
@@ -88,10 +92,24 @@ export default class SongCard extends React.Component {
         <div className={ dropdownClassName }>
           { this.checkboxHeader() }
           <form>
-            { this.createPlaylist() }
+            {/*{ this.createPlaylist() }*/}
           </form>
         </div>
       </div>
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setCurrentTrack(song){
+      dispatch({
+        type: 'UPDATE_CURRENT_TRACK',
+        currentTrack: song
+      });
+    },
+
+  }
+}
+
+export default connect(null, mapDispatchToProps)(SongCard);

@@ -65,7 +65,7 @@ export default class Playlist extends React.Component {
     if (this.props.playlist.songs[0] !== undefined) {
       return <SongsComp
         songs={ this.props.playlist.songs }
-        updateCurrentTrack={ this.props.updateCurrentTrack }
+        // updateCurrentTrack={ this.props.updateCurrentTrack }
         createNewPlaylist={ this.props.createNewPlaylist }
         mode={ 'playlist'}
         playlist={ this.props.playlist }
@@ -78,6 +78,12 @@ export default class Playlist extends React.Component {
     }
   }
 
+  deletePlaylist(index){
+    store.dispatch({
+      type: 'DELETE_PLATLIST',
+      selectedPlaylistIndex: index
+    });
+  }
 
   render() {
     const length = this.props.playlist.songs.length;
@@ -86,7 +92,7 @@ export default class Playlist extends React.Component {
         <div className="playlist-title">
           { this.toggleListTitleView() }
           <button type="button" className="delete-list-btn"
-                  onClick={ () => this.props.deletePlaylist(this.props.index) }>Delete
+                  onClick={ () => this.deletePlaylist(this.props.index) }>Delete
           </button>
         </div>
         <div className="list-songs">

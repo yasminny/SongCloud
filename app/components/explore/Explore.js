@@ -3,6 +3,7 @@ import React from 'react';
 import SongsComp from '../songs/SongsComp';
 import {NavLink} from 'react-router-dom';
 
+
 export default class Explore extends React.Component {
   constructor() {
     super();
@@ -100,10 +101,10 @@ export default class Explore extends React.Component {
               Genre: { this.props.match.params.genre.toString().charAt(0).toUpperCase() + this.props.match.params.genre.toString().slice(1) }</div>
             <SongsComp
               songs={ this.state.songs }
-              updateCurrentTrack={ this.props.updateCurrentTrack }
+              // updateCurrentTrack={ this.props.updateCurrentTrack }
               // updateSelectedSong={ this.props.updateSelectedSong }
               // updateClickedBtn={ this.props.updateClickedBtn }
-              createNewPlaylist={ this.props.createNewPlaylist }
+              // createNewPlaylist={ this.props.createNewPlaylist }
               mode={ 'explore' }
               playlists={ this.props.playlists }
             />

@@ -15,7 +15,7 @@ export default function SongsComp(props){
                 title={ song.title.slice(0, 25) }
                 duration={ song.duration }
                 artwork_url={ imgUrl }
-                updateCurrentTrack={ props.updateCurrentTrack }
+                // updateCurrentTrack={ props.updateCurrentTrack }
                 createNewPlaylist={ props.createNewPlaylist }
                 // updateSelectedSong={ props.updateSelectedSong }
                 // selectedSong={ props.selectedSong }
