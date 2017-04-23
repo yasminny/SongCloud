@@ -51,11 +51,9 @@ app.post('/xhrDeletePlaylist', (req, res) => {
 app.post('/xhrUpdateEditModePlaylist', (req, res) => {
   const data = fs.readFileSync(__dirname + '/playlists.json');
   const playlists = JSON.parse(data);
-  const index = req.body;
+  const newPlaylists = req.body;
 
-  playlists[index].isFocusMode = !playlists[index].isFocusMode;
-
-  fs.writeFileSync(__dirname + '/playlists.json', JSON.stringify(playlists));
+  fs.writeFileSync(__dirname + '/playlists.json', JSON.stringify(newPlaylists));
 
   res.send('OK')
 });

@@ -2,7 +2,7 @@ import React from 'react';
 
 
 export default function playlists(playlists = [], action) {
-  // let currentPlaylists = currentPlaylists || playlists;
+  let currentPlaylists = [...playlists];
 
   if(action.type === 'GET_XHR_PLAYLISTS'){
     return action.serverPlaylists;
@@ -12,34 +12,34 @@ export default function playlists(playlists = [], action) {
     const newPlaylist = action.newPlaylist;
     // const redirectTo = action.redirectTo;
 
-    playlists.push(newPlaylist);
+    currentPlaylists.push(newPlaylist);
 
-    return playlists;
+    return currentPlaylists;
   }
   if (action.type === 'UPDATE_PLAYLIST_TITLE') {
     const index = action.selectedPlaylistIndex;
     const value = action.newPlaylistTitle;
 
-    playlists[index].title = value;
+    currentPlaylists[index].title = value;
 
-    return playlists;
+    return currentPlaylists;
   }
   if (action.type === 'DELETE_PLATLIST') {
     const index = action.selectedPlaylistIndex;
 
-    playlists.splice(index, 1);
+    currentPlaylists.splice(index, 1);
 
-    return playlists;
+    return currentPlaylists;
   }
   if (action.type === 'UPDATE_PLAYLIST_FOCUS_MODE') {
     const index = action.selectedPlaylistIndex;
 
-    playlists[index].isFocusMode = !playlists[index].isFocusMode;
+    currentPlaylists[index].isFocusMode = !currentPlaylists[index].isFocusMode;
 
-    return playlists;
+    return currentPlaylists;
   }
 
-  return playlists;
+  return currentPlaylists;
 }
 
 
