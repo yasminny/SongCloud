@@ -1,51 +1,45 @@
-export default function playlists(playlists = [{
-                                    id: 1,
-                                    title: 'test',
-                                    isFocusMode: false,
-                                    songs: []
-                                  }], action) {
-  let currentPlaylists = currentPlaylists || playlists;
+import React from 'react';
 
+
+export default function playlists(playlists = [], action) {
+  // let currentPlaylists = currentPlaylists || playlists;
+
+  if(action.type === 'GET_XHR_PLAYLISTS'){
+    return action.serverPlaylists;
+  }
   if (action.type === 'CREATE_NEW_PLAYLIST') {
-    const newId = action.newId;
-    const newSong = action.newSong;
-    const redirectTo = action.redirectTo;
-    const playlistSongs = newSong ? [newSong] : [];
+    // const newId = action.newId;
+    const newPlaylist = action.newPlaylist;
+    // const redirectTo = action.redirectTo;
 
-    currentPlaylists.push({
-      // id: uuid(),
-     id: newId,
-      title: 'Untitled',
-      isFocusMode: true,
-      songs: playlistSongs
-    });
+    playlists.push(newPlaylist);
 
-    return currentPlaylists;
+    return playlists;
   }
   if (action.type === 'UPDATE_PLAYLIST_TITLE') {
     const index = action.selectedPlaylistIndex;
     const value = action.newPlaylistTitle;
 
-    currentPlaylists[index].title = value;
+    playlists[index].title = value;
 
-    return currentPlaylists;
+    return playlists;
   }
   if (action.type === 'DELETE_PLATLIST') {
     const index = action.selectedPlaylistIndex;
 
-    currentPlaylists.splice(index, 1);
+    playlists.splice(index, 1);
 
-    return currentPlaylists;
+    return playlists;
   }
   if (action.type === 'UPDATE_PLAYLIST_FOCUS_MODE') {
     const index = action.selectedPlaylistIndex;
 
-    currentPlaylists[index].isFocusMode = !currentPlaylists[index].isFocusMode;
+    playlists[index].isFocusMode = !playlists[index].isFocusMode;
 
-    return currentPlaylists;
+    return playlists;
   }
 
-  return currentPlaylists;
+  return playlists;
 }
 
 

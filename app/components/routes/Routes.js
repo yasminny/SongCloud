@@ -1,6 +1,3 @@
-/**
- * Created by NEXUS on 04/04/2017.
- */
 import Signup from '../signup/Signup';
 import Signin from '../signin/Signin';
 import Root from '../root/Root';

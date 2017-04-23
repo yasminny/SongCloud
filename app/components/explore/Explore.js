@@ -100,13 +100,10 @@ export default class Explore extends React.Component {
             <div className="genre-title">
               Genre: { this.props.match.params.genre.toString().charAt(0).toUpperCase() + this.props.match.params.genre.toString().slice(1) }</div>
             <SongsComp
+              {...this.props}
               songs={ this.state.songs }
-              // updateCurrentTrack={ this.props.updateCurrentTrack }
-              // updateSelectedSong={ this.props.updateSelectedSong }
-              // updateClickedBtn={ this.props.updateClickedBtn }
-              // createNewPlaylist={ this.props.createNewPlaylist }
               mode={ 'explore' }
-              playlists={ this.props.playlists }
+              // playlists={ this.props.playlists }
             />
             <div className="page-num">
               <button type="button" className="back" onClick={() => this.prevPage(this)}

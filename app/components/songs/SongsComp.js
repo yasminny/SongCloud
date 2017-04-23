@@ -20,8 +20,9 @@ export default function SongsComp(props){
                 // updateSelectedSong={ props.updateSelectedSong }
                 // selectedSong={ props.selectedSong }
                 mode={ props.mode }
-                playlists={ props.playlists }
+                // playlists={ props.playlists }
                 playlist={ props.playlists }
+                history={props.history}
               />
             </li>
           }

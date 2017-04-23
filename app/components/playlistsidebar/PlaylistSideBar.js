@@ -1,7 +1,8 @@
 import './playlistsidebar.scss';
 import React from 'react';
+import { connect } from 'react-redux';
 
-export default class PlaylistSideBar extends React.Component{
+class PlaylistSideBar extends React.Component{
 
   createPlayListsTitle(){
     if (this.props.playlists.length > 0) {
@@ -33,3 +34,24 @@ export default class PlaylistSideBar extends React.Component{
 
 }
 
+function mapStateToProps(stateData) {
+  return {
+    playlists: stateData.playlists
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    // setCurrentTrack(song){
+    //   dispatch({
+    //     type: 'UPDATE_CURRENT_TRACK',
+    //     currentTrack: song
+    //   });
+    // },
+
+  }
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlaylistSideBar);

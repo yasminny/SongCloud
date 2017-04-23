@@ -1,8 +1,9 @@
 import React from 'react';
 import SongsComp from '../songs/SongsComp';
 import './playlist.scss';
+import { connect } from 'react-redux';
 
-export default class Playlist extends React.Component {
+class Playlist extends React.Component {
   constructor(props) {
     super();
     this.state = {
@@ -12,8 +13,51 @@ export default class Playlist extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.createSongs = this.createSongs.bind(this);
+    this.xhrDeletePlaylist = this.xhrDeletePlaylist.bind(this);
+    this.xhrUpdateEditModePlaylist = this.xhrUpdateEditModePlaylist.bind(this);
+    this.handelBlur = this.handelBlur.bind(this);
+    this.handelEnter = this.handelEnter.bind(this);
+    this.handelDeleteList = this.handelDeleteList.bind(this);
   }
 
+
+  xhrDeletePlaylist(index) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://localhost:3000/xhrDeletePlaylist');
+
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.addEventListener('load', () => {
+      console.log('ok');
+    });
+
+    xhr.addEventListener('error', () => {
+      alert('problem!');
+    });
+
+    xhr.send(JSON.stringify(index));
+
+    return false;
+  }
+
+  xhrUpdateEditModePlaylist(index) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://localhost:3000/xhrUpdateEditModePlaylist');
+
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.addEventListener('load', () => {
+      console.log('ok');
+    });
+
+    xhr.addEventListener('error', () => {
+      alert('problem!');
+    });
+
+    xhr.send(JSON.stringify(index));
+
+    return false;
+  }
 
   componentDidUpdate() {
     if (this.props.playlist.isFocusMode) {
@@ -32,6 +76,15 @@ export default class Playlist extends React.Component {
     this.props.changeListTitle(this.state.value, this.props.index)
   }
 
+  handelBlur(){
+    this.props.updateEditModePlaylist(this.props.index);
+  this.xhrUpdateEditModePlaylist(this.props.index);
+  }
+
+  handelEnter(){
+    this.xhrUpdateEditModePlaylist(this.props.index);
+    this.props.updateEditModePlaylist(this.props.index);
+  }
 
   toggleListTitleView() {
     if (this.props.playlist.isFocusMode) {
@@ -39,10 +92,10 @@ export default class Playlist extends React.Component {
         <input type="text"
                autoFocus={ this.props.playlist.isFocusMode }
                ref={(value) => this.inputElm = value }
-               onBlur={() => this.props.updateEditModePlaylist(this.props.index)}
+               onBlur={() => this.handelBlur()}
                onKeyDown={(event) => {
                  if (event.key === 'Enter') {
-                   return this.props.updateEditModePlaylist(this.props.index)
+                   return this.handelEnter();
                  }
                }}
                onChange={ this.handleChange }
@@ -57,7 +110,7 @@ export default class Playlist extends React.Component {
   }
 
   handelDeleteList() {
-
+     this.xhrDeletePlaylist(this.props.index);
     this.props.deletePlaylist(this.props.index)
   }
 
@@ -78,12 +131,7 @@ export default class Playlist extends React.Component {
     }
   }
 
-  deletePlaylist(index){
-    store.dispatch({
-      type: 'DELETE_PLATLIST',
-      selectedPlaylistIndex: index
-    });
-  }
+
 
   render() {
     const length = this.props.playlist.songs.length;
@@ -92,7 +140,7 @@ export default class Playlist extends React.Component {
         <div className="playlist-title">
           { this.toggleListTitleView() }
           <button type="button" className="delete-list-btn"
-                  onClick={ () => this.deletePlaylist(this.props.index) }>Delete
+                  onClick={ () => this.handelDeleteList }>Delete
           </button>
         </div>
         <div className="list-songs">
@@ -103,4 +151,36 @@ export default class Playlist extends React.Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    changeListTitle(value, index){
+      dispatch({
+        type: 'UPDATE_PLAYLIST_TITLE',
+        newPlaylistTitle: value,
+        selectedPlaylistIndex: index
+      });
+    },
+    deletePlaylist(index){
+      dispatch({
+        type: 'DELETE_PLATLIST',
+        selectedPlaylistIndex: index
+      });
+    },
+    updateEditModePlaylist(index){
+      dispatch({
+        type: 'UPDATE_PLAYLIST_FOCUS_MODE',
+        selectedPlaylistIndex: index
+      });
+    }
+  }
+}
+
+function mapStateToProps(stateData) {
+  return {
+    playlists: stateData.playlists
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
 

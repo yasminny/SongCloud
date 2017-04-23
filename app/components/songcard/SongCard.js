@@ -1,22 +1,20 @@
 import './songcard.scss';
 import React from 'react';
-import store from '../../store';
-import uuid from 'uuid';
+// import store from '../../store';
+// import uuid from 'uuid';
 import { connect } from 'react-redux';
+import uuid from 'uuid';
 
 class SongCard extends React.Component {
   constructor() {
     super();
     this.state = {
-      isHeartClicked: false,
-      // relatedPlaylists: []
-      // isInPlaylist: false
+      isHeartClicked: false
     };
-
     this.updateClickedHeart = this.updateClickedHeart.bind(this);
-    // this.updateRelatedPlaylists = this.updateRelatedPlaylists.bind(this);
+    this.addSongToPlaylist = this.addSongToPlaylist.bind(this);
+    this.xhrCreatePlaylist = this.xhrCreatePlaylist.bind(this);
   }
-
 
   updateClickedHeart() {
     this.setState({
@@ -31,6 +29,24 @@ class SongCard extends React.Component {
   //     relatedPlaylists: newplaylists
   //   })
   // }
+  xhrCreatePlaylist(newPlaylist) {
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', 'http://localhost:3000/xhrCreatePlaylist');
+
+  xhr.setRequestHeader('Content-Type', 'application/json');
+
+  xhr.addEventListener('load', () => {
+    console.log('ok');
+  });
+
+  xhr.addEventListener('error', () => {
+    alert('problem!');
+  });
+
+  xhr.send(JSON.stringify(newPlaylist));
+
+  return false;
+}
 
   msToTime() {
     const duration = this.props.duration;
@@ -44,7 +60,17 @@ class SongCard extends React.Component {
   }
 
   addSongToPlaylist(song) {
-    this.props.createNewPlaylist(song, '/playlists');
+    const id = uuid();
+    const playlistSongs = song ? [song] : [];
+const newPlaylist = {
+      id,
+      title: 'Untitled',
+      isFocusMode: true,
+      songs: playlistSongs
+    };
+    this.xhrCreatePlaylist(newPlaylist);
+    this.props.createNewPlaylist(newPlaylist);
+    this.props.history.push('/playlists');
     }
 
   checkboxHeader() {
@@ -73,9 +99,7 @@ class SongCard extends React.Component {
   }
 
 
-
-
-  render() {
+  render(props) {
     let heartClassName = this.state.relatedPlaylists !== undefined ? "add-to-list fa fa-heart blue-heart" : "add-to-list fa fa-heart-o";
     let openHeartClassName = this.state.isHeartClicked ? "add-to-list fa fa-heart-o blue-heart" : heartClassName;
     let dropdownClassName = this.state.isHeartClicked ? 'checkbox' : 'checkbox hidden';
@@ -92,13 +116,14 @@ class SongCard extends React.Component {
         <div className={ dropdownClassName }>
           { this.checkboxHeader() }
           <form>
-            {/*{ this.createPlaylist() }*/}
+            { this.createPlaylist() }
           </form>
         </div>
       </div>
     );
   }
 }
+
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -108,8 +133,19 @@ function mapDispatchToProps(dispatch) {
         currentTrack: song
       });
     },
-
+    createNewPlaylist(newPlaylist){
+      dispatch({
+        type: 'CREATE_NEW_PLAYLIST',
+        newPlaylist
+      });
+    }
   }
 }
 
-export default connect(null, mapDispatchToProps)(SongCard);
+function mapStateToProps(stateData) {
+  return {
+    playlists: stateData.playlists
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SongCard);

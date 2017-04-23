@@ -7,9 +7,9 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import uuid from 'uuid';
+
 import React from 'react';
-import store from '../../store';
+// import store from '../../store';
 
 export default class Root extends React.Component {
   constructor() {
@@ -102,50 +102,47 @@ export default class Root extends React.Component {
 //   })
 // }
 
-render()
-{
-  return (
-    <div className="main-root root-comp">
-      <main>
-        <Topbar/>
-        <Switch>
-          <Route exact path="/" component={() => {
-            return <Redirect to="/explore"/>
-          }}/>
-          <Route exact path="/explore" component={ () => {
-            return <Redirect to="/explore/house"/>
-          }}/>
-          {/*not a comp as I cant pass props without a function like the update function or the match object*/}
-          <Route path="/explore/:genre" render={(props) => {
-            return <Explore
-                            createNewPlaylist={ this.createNewPlaylist }
-              // updateSelectedSong={ this.updateSelectedSong }
-              // updateClickedBtn={ this.updateClickedBtn }
-              // selectedSong={ this.state.selectedSong }
-              // clickedBtn={ this.state.clickedBtn }
-              // updateCurrentTrack={ this.updateCurrentTrack }
-                            {...props}
-                            playlists={ this.state.playlists }/>
-          }}/>
-          <Route exact path="/playlists" render={ () => {
-            return <Playlists playlists={ this.state.playlists }
-                              deletePlaylist={ this.deletePlaylist }
-                              createNewPlaylist={ this.createNewPlaylist }
-                              updateEditModePlaylist={ this.updateEditModePlaylist }
-                              changeListTitle={ this.changeListTitle }
-              // updateCurrentTrack={ this.updateCurrentTrack }
-              // updateSelectedSong={ this.updateSelectedSong }
-              // updateClickedBtn={ this.updateClickedBtn }
-              // selectedSong={ this.state.selectedSong }
-              // clickedBtn={ this.state.clickedBtn }
-              // data={ this.state.playlists }
-            />
-          } }/>
-        </Switch>
-        <Player/>
-      </main>
-    </div>);
-}
-;
+  render() {
+    return (
+      <div className="main-root root-comp">
+        <main>
+          <Topbar/>
+          <Switch>
+            <Route exact path="/" component={() => {
+              return <Redirect to="/explore"/>
+            }}/>
+            <Route exact path="/explore" component={ () => {
+              return <Redirect to="/explore/house"/>
+            }}/>
+            {/*not a comp as I cant pass props without a function like the update function or the match object*/}
+            <Route path="/explore/:genre" component={ Explore }/>
+                {/*// createNewPlaylist={ this.createNewPlaylist }*/}
+                {/*// updateSelectedSong={ this.updateSelectedSong }*/}
+                {/*// updateClickedBtn={ this.updateClickedBtn }*/}
+                {/*// selectedSong={ this.state.selectedSong }*/}
+                {/*// clickedBtn={ this.state.clickedBtn }*/}
+                {/*// updateCurrentTrack={ this.updateCurrentTrack }*/}
+
+                {/*// playlists={ this.state.playlists }/>*/}
+
+            <Route exact path="/playlists" component={ Playlists }/>
+                {/*// playlists={ this.state.playlists }*/}
+                                {/*// deletePlaylist={ this.deletePlaylist }*/}
+                                {/*// createNewPlaylist={ this.createNewPlaylist }*/}
+                                {/*// updateEditModePlaylist={ this.updateEditModePlaylist }*/}
+                                {/*// changeListTitle={ this.changeListTitle }*/}
+                {/*// updateCurrentTrack={ this.updateCurrentTrack }*/}
+                {/*// updateSelectedSong={ this.updateSelectedSong }*/}
+                {/*// updateClickedBtn={ this.updateClickedBtn }*/}
+                {/*// selectedSong={ this.state.selectedSong }*/}
+                {/*// clickedBtn={ this.state.clickedBtn }*/}
+                {/*// data={ this.state.playlists }*/}
+              {/*/>*/}
+          </Switch>
+          <Player/>
+        </main>
+      </div>);
+  }
+  ;
 
 }
