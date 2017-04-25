@@ -1,9 +1,16 @@
 import './playlistsidebar.scss';
 import React from 'react';
 import { connect } from 'react-redux';
+import uuid from 'uuid';
 
 class PlaylistSideBar extends React.Component{
+  constructor(props) {
+    super();
+    this.state = {};
 
+    this.handelCreateNewPlaylist = this.handelCreateNewPlaylist.bind(this);
+    this.xhrCreatePlaylist = this.xhrCreatePlaylist.bind(this);
+  }
   createPlayListsTitle(){
     if (this.props.playlists.length > 0) {
       return this.props.playlists.map((playlist)=> {
@@ -15,14 +22,43 @@ class PlaylistSideBar extends React.Component{
       )
     }
   }
+handelCreateNewPlaylist(){
+  const id = uuid();
+  const newPlaylist = {
+    id,
+    title: 'Untitled',
+    isFocusMode: true,
+    songs: []
+  };
+  this.xhrCreatePlaylist(newPlaylist);
+  this.props.createNewPlaylist(newPlaylist);
+}
 
+  xhrCreatePlaylist(newPlaylist) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://localhost:3000/xhrCreatePlaylist');
+
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.addEventListener('load', () => {
+      console.log('ok');
+    });
+
+    xhr.addEventListener('error', () => {
+      alert('problem!');
+    });
+
+    xhr.send(JSON.stringify(newPlaylist));
+
+    return false;
+  }
 
   render(){
         return(
       <div className="sidebar playlists-sidebar-comp">
         <aside >
           <div className="playlist-btn-section">
-            <button type="button" className="add-playlist-btn" onClick={()=> this.props.createNewPlaylist() }>Add new playlist</button>
+            <button type="button" className="add-playlist-btn" onClick={()=> this.handelCreateNewPlaylist() }>Add new playlist</button>
           </div>
           <ul>
             { this.createPlayListsTitle() }
@@ -42,6 +78,13 @@ function mapStateToProps(stateData) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    createNewPlaylist(newPlaylist){
+      dispatch({
+        type: 'CREATE_NEW_PLAYLIST',
+        newPlaylist
+      });
+    }
+
     // setCurrentTrack(song){
     //   dispatch({
     //     type: 'UPDATE_CURRENT_TRACK',

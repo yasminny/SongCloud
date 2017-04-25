@@ -33,6 +33,7 @@
 }
 
 .add-to-list{
+  margin-right: 10px;
   color: $shadow;
   float: right;
   //width: 20px;
@@ -107,4 +108,56 @@
 
 .blue-heart, .blue-heart:hover, .fa-heart, .fa-heart:hover{
   color: $mainBlue;
+}
+
+.song-image{
+  background-color: rgba(0,0,0,0.75);
+  color: white;
+  font-size: 70px;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+padding-top: 10px;
+  display: none;
+  cursor: pointer;
+}
+
+.song-img:hover .song-image{
+  display: block;
+}
+
+.playing{
+  display: block;
+}
+
+label.checkbox {
+  padding-left: 20px;
+  cursor: pointer;
+}
+
+.indicator {
+  border-radius: 3px;
+  border: 1px solid #dde4e6;
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 0.9rem;
+  height: 0.9rem;
+  background-color: #ffff;
+  cursor: pointer;
+  transition: all .2s ease-in;
+}
+
+label:hover > .indicator,
+.indicator:hover {
+  border: 2px solid #2196f3;
+}
+
+input[type=checkbox] {
+  opacity: 0;
+}
+
+label.checkbox > input[type="checkbox"]:checked ~ .indicator {
+  background: #2196f3 url('data:image/svg+xml;utf8,<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75 75"><defs><style>.cls-1{fill:#fff;}</style></defs><title>Artboard 1</title><g id="GyyoQ7.tif"><path class="cls-1" d="M71.23,18.81l-6.12-6.12a4.05,4.05,0,0,0-5.73,0h0L30.59,41.48l-13-13a4,4,0,0,0-5.73,0h0L5.77,34.64a4.05,4.05,0,0,0,0,5.73h0L21.6,56.19l6.12,6.12a4.05,4.05,0,0,0,5.73,0h0l6.12-6.12L71.23,24.54a4,4,0,0,0,0-5.73Z"/></g></svg>') no-repeat;
+  border: 2px solid #2196f3;
 }

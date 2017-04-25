@@ -2,31 +2,78 @@ import './player.scss';
 import React from 'react';
 import { connect } from 'react-redux';
 
-function Player(props) {
+class Player extends React.Component {
+  constructor(props) {
+    super();
+    this.state = {};
+    this.playOrPause = this.playOrPause.bind(this);
+    this.isThereData = this.isThereData.bind(this);
+  }
 
-    let compClassName = props.currentTrack !== null? "footer player-comp back-to-view-anim" : 'footer player-comp';
 
-    function isThereData() {
-      if (props.currentTrack !== null){
-        let songUrl = `${props.currentTrack.stream_url}?client_id=2t9loNQH90kzJcsFCODdigxfp325aq4z`;
+
+    playOrPause() {
+    if (this.props.currentTrack !== null) {
+      if (this.props.isPlaying) {
+        return this.audioElem.play();
+      }
+      if (!this.props.isPlaying) {
+        return this.audioElem.pause();
+      }
+    }
+    }
+
+  componentDidUpdate(){
+    this.playOrPause();
+  }
+
+    isThereData() {
+      if (this.props.currentTrack !== null){
+        let songUrl = `${this.props.currentTrack.stream_url}?client_id=2t9loNQH90kzJcsFCODdigxfp325aq4z`;
         return (<div>
-          <div className="player-img" style={{'backgroundImage': `url( ${props.currentTrack.artwork_url})`}}/>
-        <h1 className="footer-title">{props.currentTrack.title}</h1>
-        <audio className="player" src={ songUrl } controls autoPlay/>
+          <div className="player-img" style={{'backgroundImage': `url( ${this.props.currentTrack.artwork_url})`}}/>
+        <h1 className="footer-title">{this.props.currentTrack.title}</h1>
+        <audio className="player" src={ songUrl } controls autoPlay ref={(ref)=> this.audioElem = ref}
+               // onClick={()=> this.props.changePlayingMode()}
+               onPlay={()=> this.props.setPlaying(true)}
+        onPause={()=> this.props.setPlaying(false)}/>
           </div>
       );
       }
     }
 
+
+render(){
+  let compClassName = this.props.currentTrack !== null? "footer player-comp back-to-view-anim" : 'footer player-comp';
+
   return <div className={ compClassName }>
-        { isThereData() }
-      </div>
+    { this.isThereData() }
+  </div>
+}
+
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    changePlayingMode(){
+      dispatch({
+        type: 'CHANGE_IS_PLAYING'
+      });
+    },
+    setPlaying(value){
+      dispatch({
+      type:'CHANGE_IS_PLAYING_VIA_PLAYER',
+      value
+      });
+    },
+  }
 }
 
 function mapStateToProps(stateData) {
   return {
-    currentTrack: stateData.currentTrack
+    currentTrack: stateData.currentTrack,
+    isPlaying: stateData.isPlaying
   }
 }
 
-export default connect(mapStateToProps)(Player);
+export default connect(mapStateToProps, mapDispatchToProps)(Player);

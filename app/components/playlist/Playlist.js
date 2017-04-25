@@ -17,9 +17,12 @@ class Playlist extends React.Component {
     this.xhrUpdateEditModePlaylist = this.xhrUpdateEditModePlaylist.bind(this);
     this.handelBlurAndEnter = this.handelBlurAndEnter.bind(this);
     this.handelDeleteList = this.handelDeleteList.bind(this);
+    this.xhrUpdatePlaylistTitle = this.xhrUpdatePlaylistTitle.bind(this);
   }
 
   xhrDeletePlaylist(index) {
+    const currentPlaylists = [...this.props.playlists];
+    currentPlaylists.splice(index, 1);
     const xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost:3000/xhrDeletePlaylist');
 
@@ -33,7 +36,7 @@ class Playlist extends React.Component {
       alert('problem!');
     });
 
-    xhr.send(JSON.stringify(index));
+    xhr.send(JSON.stringify(currentPlaylists));
 
     return false;
   }
@@ -70,13 +73,37 @@ class Playlist extends React.Component {
 
 
   handleChange(event) {
+    console.log(event.target.value);
     this.setState({value: event.target.value});
-    this.props.changeListTitle(this.state.value, this.props.index)
+
+    this.props.changeListTitle(event.target.value, this.props.index)
+  }
+
+  xhrUpdatePlaylistTitle(value, index){
+    const currentPlaylists = [...this.props.playlists];
+    currentPlaylists[index].title = value;
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://localhost:3000/xhrDeletePlaylist');
+
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.addEventListener('load', () => {
+      console.log('ok');
+    });
+
+    xhr.addEventListener('error', () => {
+      alert('problem!');
+    });
+
+    xhr.send(JSON.stringify(currentPlaylists));
+
+    return false;
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.changeListTitle(this.state.value, this.props.index)
+    // this.props.changeListTitle(this.state.value, this.props.index);
+    this.xhrUpdatePlaylistTitle(this.state.value, this.props.index);
   }
 
   handelBlurAndEnter(){
@@ -108,9 +135,10 @@ class Playlist extends React.Component {
     }
   }
 
-  handelDeleteList() {
-     this.xhrDeletePlaylist(this.props.index);
-    this.props.deletePlaylist(this.props.index)
+  handelDeleteList(index) {
+    console.log('delete clicked');
+     this.xhrDeletePlaylist(index);
+    this.props.deletePlaylist(index)
   }
 
   createSongs() {
@@ -139,7 +167,7 @@ class Playlist extends React.Component {
         <div className="playlist-title">
           { this.toggleListTitleView() }
           <button type="button" className="delete-list-btn"
-                  onClick={ () => this.handelDeleteList }>Delete
+                  onClick={ () => this.handelDeleteList(this.props.index) }>Delete
           </button>
         </div>
         <div className="list-songs">

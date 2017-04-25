@@ -12,7 +12,7 @@ export default function SongsComp(props){
             return <li  key={ song.id }>
               <SongCard
                 song={song}
-                title={ song.title.slice(0, 25) }
+                title={ song.title }
                 duration={ song.duration }
                 artwork_url={ imgUrl }
                 // updateCurrentTrack={ props.updateCurrentTrack }

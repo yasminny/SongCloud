@@ -39,11 +39,9 @@ app.post('/xhrCreatePlaylist', (req, res) => {
 app.post('/xhrDeletePlaylist', (req, res) => {
   const data = fs.readFileSync(__dirname + '/playlists.json');
   const playlists = JSON.parse(data);
-  const index = req.body;
+  const newPlaylists = req.body;
 
-  playlists.splice(index, 1);
-
-  fs.writeFileSync(__dirname + '/playlists.json', JSON.stringify(playlists));
+  fs.writeFileSync(__dirname + '/playlists.json', JSON.stringify(newPlaylists));
 
   res.send('OK')
 });
@@ -58,6 +56,15 @@ app.post('/xhrUpdateEditModePlaylist', (req, res) => {
   res.send('OK')
 });
 
+app.post('/xhrUpdatePlaylistTitle', (req, res) => {
+  const data = fs.readFileSync(__dirname + '/playlists.json');
+  const playlists = JSON.parse(data);
+  const newPlaylists = req.body;
+
+  fs.writeFileSync(__dirname + '/playlists.json', JSON.stringify(newPlaylists));
+
+  res.send('OK')
+});
 
 
 // START THE SERVER
