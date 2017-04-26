@@ -54,7 +54,7 @@
   height: 17px;
 }
 
-.checkbox{
+.checkbox-box{
   width: 130px;
   height: 110px;
   background: $white;
@@ -83,7 +83,7 @@
   padding-left: 10px;
 }
 
-.checkbox form{
+.checkbox-box form{
   margin: 0 10px;
   border-top: 1px solid $border;
   display: flex;
@@ -92,7 +92,7 @@
   padding-top: 6.2px;
 }
 
-.checkbox form p{
+.checkbox-box form p{
   font-size: 9px;
   color: $grey;
   display: inline-block;
@@ -100,7 +100,7 @@
   line-height: 12px;
 }
 
-.checkbox form div{
+.checkbox-box form div{
   line-height: 12px;
   display: flex;
 
@@ -150,7 +150,7 @@ label.checkbox {
 
 label:hover > .indicator,
 .indicator:hover {
-  border: 2px solid #2196f3;
+  border: 2px solid $mainBlue;
 }
 
 input[type=checkbox] {
@@ -158,6 +158,6 @@ input[type=checkbox] {
 }
 
 label.checkbox > input[type="checkbox"]:checked ~ .indicator {
-  background: #2196f3 url('data:image/svg+xml;utf8,<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75 75"><defs><style>.cls-1{fill:#fff;}</style></defs><title>Artboard 1</title><g id="GyyoQ7.tif"><path class="cls-1" d="M71.23,18.81l-6.12-6.12a4.05,4.05,0,0,0-5.73,0h0L30.59,41.48l-13-13a4,4,0,0,0-5.73,0h0L5.77,34.64a4.05,4.05,0,0,0,0,5.73h0L21.6,56.19l6.12,6.12a4.05,4.05,0,0,0,5.73,0h0l6.12-6.12L71.23,24.54a4,4,0,0,0,0-5.73Z"/></g></svg>') no-repeat;
-  border: 2px solid #2196f3;
+  background: $mainBlue url('data:image/svg+xml;utf8,<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75 75"><defs><style>.cls-1{fill:#fff;}</style></defs><title>Artboard 1</title><g id="GyyoQ7.tif"><path class="cls-1" d="M71.23,18.81l-6.12-6.12a4.05,4.05,0,0,0-5.73,0h0L30.59,41.48l-13-13a4,4,0,0,0-5.73,0h0L5.77,34.64a4.05,4.05,0,0,0,0,5.73h0L21.6,56.19l6.12,6.12a4.05,4.05,0,0,0,5.73,0h0l6.12-6.12L71.23,24.54a4,4,0,0,0,0-5.73Z"/></g></svg>') no-repeat;
+  border: 2px solid $mainBlue;
 }

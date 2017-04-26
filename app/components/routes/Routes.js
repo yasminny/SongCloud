@@ -12,8 +12,8 @@ export default function Routes() {
     <BrowserRouter>
       <div className="main-root routes-comp">
           <Switch>
-            <Route path="/signin" component={ Signin }/>
-            <Route path="/signup" component={ Signup }/>
+            {/*<Route path="/signin" component={ Signin }/>*/}
+            {/*<Route path="/signup" component={ Signup }/>*/}
             <Route path="/" component={ Root }/>
           </Switch>
       </div>

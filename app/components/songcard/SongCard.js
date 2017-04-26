@@ -156,7 +156,7 @@ class SongCard extends React.Component {
     const title = trackTitleSlicer(this.props.title);
     let heartClassName = this.state.relatedPlaylists.length > 0 ? "add-to-list fa fa-heart blue-heart" : "add-to-list fa fa-heart-o";
     let openHeartClassName = this.state.isHeartClicked ? "add-to-list fa fa-heart-o blue-heart" : heartClassName;
-    let dropdownClassName = this.state.isHeartClicked ? 'checkbox' : 'checkbox hidden';
+    let dropdownClassName = this.state.isHeartClicked ? 'checkbox-box' : 'checkbox-box hidden';
     let imageView = this.props.isPlaying && this.props.currentTrack === this.props.song ? "song-image playing fa fa-pause-circle-o" : "song-image paused fa fa-play-circle-o";
 
     return (
