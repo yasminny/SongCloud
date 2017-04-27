@@ -66,6 +66,16 @@ app.post('/xhrUpdatePlaylistTitle', (req, res) => {
   res.send('OK')
 });
 
+app.post('/xhrUpdateSongInPlaylist', (req, res) => {
+  const data = fs.readFileSync(__dirname + '/playlists.json');
+  const playlists = JSON.parse(data);
+  const newPlaylists = req.body;
+
+  fs.writeFileSync(__dirname + '/playlists.json', JSON.stringify(newPlaylists));
+
+  res.send('OK')
+});
+
 
 // START THE SERVER
 // ==============================================

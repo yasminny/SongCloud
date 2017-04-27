@@ -1,7 +1,6 @@
 import './songcard.scss';
 import React from 'react';
 // import store from '../../store';
-// import uuid from 'uuid';
 import {connect} from 'react-redux';
 import uuid from 'uuid';
 
@@ -17,23 +16,27 @@ class SongCard extends React.Component {
     this.xhrCreatePlaylist = this.xhrCreatePlaylist.bind(this);
     this.handelPlaySong = this.handelPlaySong.bind(this);
     this.updateRelatedPlaylists = this.updateRelatedPlaylists.bind(this);
+    this.isSongInPlaylist = this.isSongInPlaylist.bind(this);
+    this.addOrRemoveSongToExistingPlaylist = this.addOrRemoveSongToExistingPlaylist.bind(this);
+    this.xhrUpdateSongInPlaylist = this.xhrUpdateSongInPlaylist.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  componentDidMount() {
+    this.updateRelatedPlaylists();
   }
 
   updateRelatedPlaylists() {
     let array = [];
     this.props.playlists.forEach((playlist, index) => playlist.songs.find((song) => {
       if (song.id === this.props.song.id) {
-        array.push(playlist.id);
+        return array.push(playlist.id);
       }
     }));
-    console.log(this.state.relatedPlaylists);
+    console.log(array, 'setting the related playlists array');
     return this.setState({
       relatedPlaylists: array
     })
-  }
-
-  componentDidMount() {
-    this.updateRelatedPlaylists();
   }
 
   updateClickedHeart() {
@@ -42,13 +45,80 @@ class SongCard extends React.Component {
     })
   }
 
-  // updateRelatedPlaylists(event){
-  // let newplaylists= [...this.state.relatedPlaylists];
-  // newplaylists.push(event.target.value);
-  //   this.setState({
-  //     relatedPlaylists: newplaylists
-  //   })
-  // }
+//create new playlist -----------------------------
+  addSongToPlaylist(song) {
+    const id = uuid();
+    const playlistSongs = song ? [song] : [];
+    const newPlaylist = {
+      id,
+      title: 'Untitled',
+      isFocusMode: true,
+      songs: playlistSongs
+    };
+    this.xhrCreatePlaylist(newPlaylist);
+    this.props.createNewPlaylist(newPlaylist);
+    this.props.history.push('/playlists');
+  }
+
+
+//add song to a playlist -------------------------------------
+  handleInputChange(event) {
+    const target = event.target;
+    // const value = target.type === 'checkbox' ? target.checked : target.value;
+    const playlistId = target.name;
+    console.log(playlistId, 'target name should be id of new playlist');
+    let newList = [];
+    console.log(this.state.relatedPlaylists);
+    if (this.state.relatedPlaylists.length > 0) {
+      newList = [...this.state.relatedPlaylists];
+      if(newList.find((id)=> id === playlistId)){
+        const index = newList.findIndex((id)=> id === playlistId);
+        newList.splice(index, 1);
+      }
+      else {
+        newList.push(playlistId);
+      }
+
+    }
+    else {
+      newList = [playlistId];
+    }
+    this.addOrRemoveSongToExistingPlaylist(playlistId);
+    this.setState({
+      relatedPlaylists: newList
+    });
+  }
+
+  addOrRemoveSongToExistingPlaylist(id) {
+    const currentPlaylists = [...this.props.playlists];
+    let index = currentPlaylists.map((playlist, index) =>{
+      console.log(playlist.id, id, index);
+      if(playlist.id = id){
+        return index
+      }
+    } );
+    console.log(index, 'if playlist id is the same');
+    if (currentPlaylists[index].songs.find((song) => song.id === this.props.song.id)) {
+      currentPlaylists[index].songs.push(this.props.song);
+    }
+    else {
+      const songIndex = currentPlaylists[index].songs.findIndex((song) => song.id === this.props.song.id);
+      currentPlaylists[index].songs.splice(songIndex, 1);
+    }
+    console.log(currentPlaylists);
+    this.props.addOrRemoveSongFromPlaylist(currentPlaylists);
+    this.xhrUpdateSongInPlaylist(currentPlaylists);
+  }
+
+//player related function-------------------------------------
+  handelPlaySong(song) {
+    this.props.setCurrentTrack(song);
+    if (this.props.currentTrack !== this.props.song && this.props.isPlaying) {
+      this.props.changePlayingMode();
+    }
+  }
+
+  //functions for server updates(ajax)----------------------------------
   xhrCreatePlaylist(newPlaylist) {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost:3000/xhrCreatePlaylist');
@@ -68,6 +138,33 @@ class SongCard extends React.Component {
     return false;
   }
 
+  xhrUpdateSongInPlaylist(newPlaylists) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://localhost:3000/xhrUpdateSongInPlaylist');
+
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.addEventListener('load', () => {
+      console.log('ok');
+    });
+
+    xhr.addEventListener('error', () => {
+      alert('problem!');
+    });
+
+    xhr.send(JSON.stringify(newPlaylists));
+
+    return false;
+  }
+
+// functions for rendering correct elements------------------------
+  isSongInPlaylist(id) {
+    if (this.state.relatedPlaylists.find((playlist) => playlist === id)) {
+      return true;
+    }
+    return false;
+  }
+
   msToTime() {
     const duration = this.props.duration;
     let seconds = parseInt((duration / 1000) % 60);
@@ -77,20 +174,6 @@ class SongCard extends React.Component {
     seconds = (seconds < 10) ? "0" + seconds : seconds;
 
     return minutes + ":" + seconds;
-  }
-
-  addSongToPlaylist(song) {
-    const id = uuid();
-    const playlistSongs = song ? [song] : [];
-    const newPlaylist = {
-      id,
-      title: 'Untitled',
-      isFocusMode: true,
-      songs: playlistSongs
-    };
-    this.xhrCreatePlaylist(newPlaylist);
-    this.props.createNewPlaylist(newPlaylist);
-    this.props.history.push('/playlists');
   }
 
   checkboxHeader() {
@@ -109,26 +192,18 @@ class SongCard extends React.Component {
     }
   }
 
-  handleInputChange(event) {
-    const target = event.target;
-    // const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-    let newList = [...this.state.relatedPlaylists];
-    newList.push(name);
-    this.setState({
-      relatedPlaylists: newList
-    });
-  }
 
   createPlaylist() {
     return <ul>
       {this.props.playlists.map((playlist) => {
         return <li key={ playlist.id }>
-          <label  className="checkbox">
+          {/*// onClick={() => this.addOrRemoveSongToExistingPlaylist(playlist.id)}*/}
+
+          <label className="checkbox">
             { playlist.title }
             <input type="checkbox"
                    name={playlist.id}
-                   checked={true}
+                   checked={ this.isSongInPlaylist(playlist.id)}
                    onChange={this.handleInputChange}/>
             <span className="indicator"/>
           </label>
@@ -136,15 +211,7 @@ class SongCard extends React.Component {
       })}
     </ul>
   }
-
-  handelPlaySong(song) {
-    this.props.setCurrentTrack(song);
-    if (this.props.currentTrack !== this.props.song && this.props.isPlaying) {
-      this.props.changePlayingMode();
-    }
-
-  }
-
+//----------------------------------------------------------------------------
   render(props) {
     function trackTitleSlicer(title) {
       if (title.length > 25) {
@@ -201,6 +268,12 @@ function mapDispatchToProps(dispatch) {
       dispatch({
         type: 'CREATE_NEW_PLAYLIST',
         newPlaylist
+      });
+    },
+    addOrRemoveSongFromPlaylist(currentPlaylists){
+      dispatch({
+        type: 'UPDATE_SONG_IN_PLAYLIST',
+        currentPlaylists
       });
     }
   }

@@ -38,6 +38,10 @@ export default function playlists(playlists = [], action) {
 
     return currentPlaylists;
   }
+  if (action.type === 'UPDATE_SONG_IN_PLAYLIST') {
+
+    return action.currentPlaylists;
+  }
 
   return currentPlaylists;
 }

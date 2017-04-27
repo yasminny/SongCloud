@@ -130,17 +130,26 @@ padding-top: 10px;
   display: block;
 }
 
+form > ul{
+  height: 60px;
+  width: 109px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 label.checkbox {
   padding-left: 20px;
   cursor: pointer;
+  font-size: 0.56rem;
+  position: relative;
 }
 
 .indicator {
   border-radius: 3px;
   border: 1px solid #dde4e6;
   position: absolute;
-  left: 0;
-  top: 9px;
+  left: 0px;
+  top: -3px;
   width: 0.9rem;
   height: 0.9rem;
   background-color: #ffff;
