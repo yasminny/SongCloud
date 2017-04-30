@@ -103,6 +103,7 @@ export default class Explore extends React.Component {
               {...this.props}
               songs={ this.state.songs }
               mode={ 'explore' }
+              playlistId={0}
               // playlists={ this.props.playlists }
             />
             <div className="page-num">

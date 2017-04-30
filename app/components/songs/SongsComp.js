@@ -21,7 +21,7 @@ export default function SongsComp(props){
                 // selectedSong={ props.selectedSong }
                 mode={ props.mode }
                 // playlists={ props.playlists }
-                playlist={ props.playlists }
+                playlistId={ props.playlistId}
                 history={props.history}
               />
             </li>

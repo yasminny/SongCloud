@@ -148,7 +148,7 @@ class Playlist extends React.Component {
         // updateCurrentTrack={ this.props.updateCurrentTrack }
         createNewPlaylist={ this.props.createNewPlaylist }
         mode={ 'playlist'}
-        playlist={ this.props.playlist }
+        playlistId={ this.props.playlist.id }
         playlists={ this.props.playlists }
         // updateSelectedSong={ props.updateSelectedSong }
       />

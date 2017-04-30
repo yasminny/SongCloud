@@ -1,6 +1,5 @@
 import './songcard.scss';
 import React from 'react';
-// import store from '../../store';
 import {connect} from 'react-redux';
 import uuid from 'uuid';
 
@@ -8,18 +7,18 @@ class SongCard extends React.Component {
   constructor() {
     super();
     this.state = {
-      isHeartClicked: false,
       relatedPlaylists: []
     };
-    this.updateClickedHeart = this.updateClickedHeart.bind(this);
+
     this.addSongToPlaylist = this.addSongToPlaylist.bind(this);
     this.xhrCreatePlaylist = this.xhrCreatePlaylist.bind(this);
     this.handelPlaySong = this.handelPlaySong.bind(this);
     this.updateRelatedPlaylists = this.updateRelatedPlaylists.bind(this);
-    this.isSongInPlaylist = this.isSongInPlaylist.bind(this);
     this.addOrRemoveSongToExistingPlaylist = this.addOrRemoveSongToExistingPlaylist.bind(this);
     this.xhrUpdateSongInPlaylist = this.xhrUpdateSongInPlaylist.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.isSongInThisPlaylist = this.isSongInThisPlaylist.bind(this);
+    this.checkForDropdown = this.checkForDropdown.bind(this);
   }
 
   componentDidMount() {
@@ -27,22 +26,29 @@ class SongCard extends React.Component {
   }
 
   updateRelatedPlaylists() {
+    const currentPlaylists = [...this.props.playlists];
     let array = [];
-    this.props.playlists.forEach((playlist, index) => playlist.songs.find((song) => {
+    currentPlaylists.forEach((playlist, index) => playlist.songs.find((song) => {
       if (song.id === this.props.song.id) {
         return array.push(playlist.id);
       }
     }));
-    console.log(array, 'setting the related playlists array');
     return this.setState({
       relatedPlaylists: array
     })
   }
 
-  updateClickedHeart() {
-    this.setState({
-      isHeartClicked: !this.state.isHeartClicked
-    })
+  isSongInThisPlaylist(id){
+    const currentPlaylist = this.props.playlists.find((playlist)=> playlist.id === id);
+    if (currentPlaylist.songs.length > 0){
+      const isSongThere = currentPlaylist.songs.find((song)=> song.id === this.props.song.id);
+      if(isSongThere){
+        return true;
+      }
+    }
+    else{
+           return false;
+    }
   }
 
 //create new playlist -----------------------------
@@ -64,49 +70,26 @@ class SongCard extends React.Component {
 //add song to a playlist -------------------------------------
   handleInputChange(event) {
     const target = event.target;
-    // const value = target.type === 'checkbox' ? target.checked : target.value;
     const playlistId = target.name;
-    console.log(playlistId, 'target name should be id of new playlist');
-    let newList = [];
-    console.log(this.state.relatedPlaylists);
-    if (this.state.relatedPlaylists.length > 0) {
-      newList = [...this.state.relatedPlaylists];
-      if(newList.find((id)=> id === playlistId)){
-        const index = newList.findIndex((id)=> id === playlistId);
-        newList.splice(index, 1);
-      }
-      else {
-        newList.push(playlistId);
-      }
-
-    }
-    else {
-      newList = [playlistId];
-    }
     this.addOrRemoveSongToExistingPlaylist(playlistId);
-    this.setState({
-      relatedPlaylists: newList
-    });
   }
 
   addOrRemoveSongToExistingPlaylist(id) {
     const currentPlaylists = [...this.props.playlists];
-    let index = currentPlaylists.map((playlist, index) =>{
-      console.log(playlist.id, id, index);
-      if(playlist.id = id){
-        return index
-      }
-    } );
-    console.log(index, 'if playlist id is the same');
-    if (currentPlaylists[index].songs.find((song) => song.id === this.props.song.id)) {
-      currentPlaylists[index].songs.push(this.props.song);
-    }
-    else {
+    const index = currentPlaylists.findIndex((playlist)=> playlist.id === id);
+    if(this.isSongInThisPlaylist(id)){
       const songIndex = currentPlaylists[index].songs.findIndex((song) => song.id === this.props.song.id);
       currentPlaylists[index].songs.splice(songIndex, 1);
     }
-    console.log(currentPlaylists);
-    this.props.addOrRemoveSongFromPlaylist(currentPlaylists);
+    else{
+      currentPlaylists[index].songs.push(this.props.song);
+    }
+    if(this.props.mode === 'explore'){
+      this.props.addOrRemoveSongFromPlaylist(currentPlaylists, 0);
+    }
+    else{
+      this.props.addOrRemoveSongFromPlaylist(currentPlaylists, id);
+    }
     this.xhrUpdateSongInPlaylist(currentPlaylists);
   }
 
@@ -158,12 +141,6 @@ class SongCard extends React.Component {
   }
 
 // functions for rendering correct elements------------------------
-  isSongInPlaylist(id) {
-    if (this.state.relatedPlaylists.find((playlist) => playlist === id)) {
-      return true;
-    }
-    return false;
-  }
 
   msToTime() {
     const duration = this.props.duration;
@@ -192,18 +169,31 @@ class SongCard extends React.Component {
     }
   }
 
+  checkForDropdown(){
+  let playlistId = this.props.playlistId;
+
+  const theRightSong = this.props.heartWasClicked.songId === this.props.song.id;
+
+  const theRightPlaylist = this.props.heartWasClicked.playlistId !== 0 && this.props.heartWasClicked.playlistId === playlistId;
+
+  if (this.props.heartWasClicked.playlistId === 0 && theRightSong || theRightPlaylist && theRightSong){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
 
   createPlaylist() {
     return <ul>
       {this.props.playlists.map((playlist) => {
         return <li key={ playlist.id }>
-          {/*// onClick={() => this.addOrRemoveSongToExistingPlaylist(playlist.id)}*/}
-
           <label className="checkbox">
             { playlist.title }
             <input type="checkbox"
                    name={playlist.id}
-                   checked={ this.isSongInPlaylist(playlist.id)}
+                   checked={ this.isSongInThisPlaylist(playlist.id)}
                    onChange={this.handleInputChange}/>
             <span className="indicator"/>
           </label>
@@ -220,10 +210,17 @@ class SongCard extends React.Component {
       return title;
     }
 
+    const thisIsTheOnlyOpenedCheckbox = this.checkForDropdown();
+
+    let playlistId = this.props.playlistId;
     const title = trackTitleSlicer(this.props.title);
-    let heartClassName = this.state.relatedPlaylists.length > 0 ? "add-to-list fa fa-heart blue-heart" : "add-to-list fa fa-heart-o";
-    let openHeartClassName = this.state.isHeartClicked ? "add-to-list fa fa-heart-o blue-heart" : heartClassName;
-    let dropdownClassName = this.state.isHeartClicked ? 'checkbox-box' : 'checkbox-box hidden';
+
+    let heartBlue = this.state.relatedPlaylists.length > 0 ? "add-to-list fa fa-heart blue-heart" : "add-to-list fa fa-heart-o";
+
+    let heartClicked = this.props.heartWasClicked.songId === this.props.song.id && this.props.heartWasClicked.playlistId === this.props.playlistId? "add-to-list fa fa-heart-o blue-heart" : heartBlue;
+
+    let dropdownClassName = thisIsTheOnlyOpenedCheckbox? 'checkbox-box' : 'checkbox-box hidden';
+
     let imageView = this.props.isPlaying && this.props.currentTrack === this.props.song ? "song-image playing fa fa-pause-circle-o" : "song-image paused fa fa-play-circle-o";
 
     return (
@@ -236,7 +233,7 @@ class SongCard extends React.Component {
           <h1>{title}</h1>
           <h2><i className="fa fa-clock-o" aria-hidden="true"/> { this.msToTime()}</h2>
         </div>
-        <button type="button" className={ openHeartClassName } onClick={ this.updateClickedHeart }/>
+        <button type="button" className={ heartClicked } onClick={ ()=>  this.props.thisHeartWasClicked(this.props.song.id, playlistId, this.props.heartWasClicked.songId, this.props.heartWasClicked.playlistId) }/>
         <div className={ dropdownClassName }>
           { this.checkboxHeader() }
           <form>
@@ -270,11 +267,31 @@ function mapDispatchToProps(dispatch) {
         newPlaylist
       });
     },
-    addOrRemoveSongFromPlaylist(currentPlaylists){
+    addOrRemoveSongFromPlaylist(currentPlaylists, playlistId){
       dispatch({
         type: 'UPDATE_SONG_IN_PLAYLIST',
         currentPlaylists
       });
+      dispatch({
+        type: 'A_HEART_WAS_CLICKED',
+        playlistId
+      });
+    },
+    thisHeartWasClicked(songId, playlistId, oldSongId, oldPlaylistId){
+      if (oldSongId === songId && oldPlaylistId === playlistId){
+        dispatch({
+          type: 'A_HEART_WAS_CLICKED',
+          songId: 0,
+          playlistId: 0
+        });
+      }
+      else {
+        dispatch({
+          type: 'A_HEART_WAS_CLICKED',
+          songId,
+          playlistId
+        });
+      }
     }
   }
 }
@@ -283,7 +300,8 @@ function mapStateToProps(stateData) {
   return {
     playlists: stateData.playlists,
     isPlaying: stateData.isPlaying,
-    currentTrack: stateData.currentTrack
+    currentTrack: stateData.currentTrack,
+    heartWasClicked: stateData.heartWasClicked
   }
 }
 
