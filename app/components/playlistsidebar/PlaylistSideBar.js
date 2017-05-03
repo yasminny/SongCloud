@@ -10,11 +10,19 @@ class PlaylistSideBar extends React.Component{
 
     this.handelCreateNewPlaylist = this.handelCreateNewPlaylist.bind(this);
     this.xhrCreatePlaylist = this.xhrCreatePlaylist.bind(this);
+    this.scrollToAPlaylist = this.scrollToAPlaylist.bind(this);
   }
+
+  scrollToAPlaylist(id){
+    console.log(id);
+    this.props.updateFocusedPlaylist(id);
+  }
+
   createPlayListsTitle(){
     if (this.props.playlists.length > 0) {
       return this.props.playlists.map((playlist)=> {
-        return <li key={ playlist.id }>
+        return <li key={ playlist.id }
+        onClick={()=> this.scrollToAPlaylist(playlist.id)}>
           { playlist.title }
         </li>
         }
@@ -30,6 +38,7 @@ handelCreateNewPlaylist(){
     isFocusMode: true,
     songs: []
   };
+  this.props.updateFocusedPlaylist(newPlaylist.id);
   this.xhrCreatePlaylist(newPlaylist);
   this.props.createNewPlaylist(newPlaylist);
 }
@@ -81,6 +90,12 @@ function mapDispatchToProps(dispatch) {
     createNewPlaylist(newPlaylist){
       dispatch({
         type: 'CREATE_NEW_PLAYLIST',
+        newPlaylist
+      });
+    },
+    updateFocusedPlaylist(newPlaylist){
+      dispatch({
+        type: 'UPDATE_CURRENT_PLAYLIST',
         newPlaylist
       });
     }

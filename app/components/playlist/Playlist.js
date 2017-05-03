@@ -17,6 +17,7 @@ class Playlist extends React.Component {
     this.xhrUpdateEditModePlaylist = this.xhrUpdateEditModePlaylist.bind(this);
     this.handelBlurAndEnter = this.handelBlurAndEnter.bind(this);
     this.handelDeleteList = this.handelDeleteList.bind(this);
+    this.focusOnThisPlaylist = this.focusOnThisPlaylist.bind(this);
     this.xhrUpdatePlaylistTitle = this.xhrUpdatePlaylistTitle.bind(this);
   }
 
@@ -63,12 +64,19 @@ class Playlist extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.playlist.isFocusMode) {
-      this.inputElm.focus();
+    if(this.props.playlist.isFocusMode || this.props.playlist.id === this.props.focusedPlaylist) {
+      this.playlistElm.scrollIntoView({behavior: 'smooth'});
     }
     else {
       this.inputElm.blur();
     }
+  }
+
+  focusOnThisPlaylist(){
+    if(this.props.playlist.isFocusMode || this.props.playlist.id === this.props.focusedPlaylist){
+      return true;
+    }
+    return false;
   }
 
 
@@ -116,7 +124,7 @@ class Playlist extends React.Component {
     if (this.props.playlist.isFocusMode) {
       return <form onSubmit={ this.handleSubmit}>
         <input type="text"
-               autoFocus={ this.props.playlist.isFocusMode }
+               autoFocus={ this.focusOnThisPlaylist() }
                ref={(value) => this.inputElm = value }
                onBlur={() => this.handelBlurAndEnter(this.props.index)}
                onKeyDown={(event) => {
@@ -136,9 +144,11 @@ class Playlist extends React.Component {
   }
 
   handelDeleteList(index) {
-    console.log('delete clicked');
-     this.xhrDeletePlaylist(index);
-    this.props.deletePlaylist(index)
+    let answer = confirm(`Deleting "${this.props.playlist.title}" playlist. Are you sure?`);
+    if(answer){
+      this.xhrDeletePlaylist(index);
+      this.props.deletePlaylist(index);
+    }
   }
 
   createSongs() {
@@ -163,7 +173,7 @@ class Playlist extends React.Component {
   render() {
     const length = this.props.playlist.songs.length;
     return (
-      <div className="playlist-comp">
+      <div className="playlist-comp" ref={(value) => this.playlistElm = value}>
         <div className="playlist-title">
           { this.toggleListTitleView() }
           <button type="button" className="delete-list-btn"
@@ -199,13 +209,20 @@ function mapDispatchToProps(dispatch) {
         type: 'UPDATE_PLAYLIST_FOCUS_MODE',
         selectedPlaylistIndex: index
       });
+    },
+    updateFocusedPlaylist(newPlaylist){
+      dispatch({
+        type: 'UPDATE_CURRENT_PLAYLIST',
+        newPlaylist
+      });
     }
   }
 }
 
 function mapStateToProps(stateData) {
   return {
-    playlists: stateData.playlists
+    playlists: stateData.playlists,
+    focusedPlaylist: stateData.focusedPlaylist
   }
 }
 

@@ -3,12 +3,14 @@ import heartWasClicked from './reducers/heart-was-clicked';
 import playlists from './reducers/playlists';
 import currentTrack from './reducers/current-track';
 import isPlaying from './reducers/is-playing';
+import focusedPlaylist from './reducers/focused-playlist';
 
 const reducer = combineReducers({
   heartWasClicked,
   currentTrack,
   playlists,
-  isPlaying
+  isPlaying,
+  focusedPlaylist
 });
 
 const store = createStore(reducer);

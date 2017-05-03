@@ -40,15 +40,13 @@ class SongCard extends React.Component {
 
   isSongInThisPlaylist(id){
     const currentPlaylist = this.props.playlists.find((playlist)=> playlist.id === id);
-    if (currentPlaylist.songs.length > 0){
+    if (currentPlaylist.songs.length > 0) {
       const isSongThere = currentPlaylist.songs.find((song)=> song.id === this.props.song.id);
       if(isSongThere){
         return true;
       }
     }
-    else{
-           return false;
-    }
+    return false;
   }
 
 //create new playlist -----------------------------
@@ -61,6 +59,7 @@ class SongCard extends React.Component {
       isFocusMode: true,
       songs: playlistSongs
     };
+    this.props.updateFocusedPlaylist(newPlaylist.id);
     this.xhrCreatePlaylist(newPlaylist);
     this.props.createNewPlaylist(newPlaylist);
     this.props.history.push('/playlists');
@@ -95,14 +94,22 @@ class SongCard extends React.Component {
 
 //player related function-------------------------------------
   handelPlaySong(song) {
+    console.log('image in song card was clicked');
     this.props.setCurrentTrack(song);
-    if (this.props.currentTrack !== this.props.song && this.props.isPlaying) {
-      this.props.changePlayingMode();
+    if (this.props.currentTrack !== this.props.song && !this.props.isPlaying){
+      console.log('changes playing mode was called');
+      this.props.setPlayMode(true);
+    }
+    else if(this.props.currentTrack === this.props.song && !this.props.isPlaying){
+      this.props.setPlayMode(true);
+    }
+    else if(this.props.currentTrack === this.props.song && this.props.isPlaying){
+      this.props.setPlayMode(false);
     }
   }
 
   //functions for server updates(ajax)----------------------------------
-  xhrCreatePlaylist(newPlaylist) {
+  xhrCreatePlaylist(newPlaylist){
     const xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost:3000/xhrCreatePlaylist');
 
@@ -177,7 +184,10 @@ class SongCard extends React.Component {
   const theRightPlaylist = this.props.heartWasClicked.playlistId !== 0 && this.props.heartWasClicked.playlistId === playlistId;
 
   if (this.props.heartWasClicked.playlistId === 0 && theRightSong || theRightPlaylist && theRightSong){
-    return true;
+    if(this.props.heartWasClicked.displayDropdown){
+      return true;
+    }
+    return false;
   }
   else{
     return false;
@@ -210,8 +220,6 @@ class SongCard extends React.Component {
       return title;
     }
 
-    const thisIsTheOnlyOpenedCheckbox = this.checkForDropdown();
-
     let playlistId = this.props.playlistId;
     const title = trackTitleSlicer(this.props.title);
 
@@ -219,7 +227,7 @@ class SongCard extends React.Component {
 
     let heartClicked = this.props.heartWasClicked.songId === this.props.song.id && this.props.heartWasClicked.playlistId === this.props.playlistId? "add-to-list fa fa-heart-o blue-heart" : heartBlue;
 
-    let dropdownClassName = thisIsTheOnlyOpenedCheckbox? 'checkbox-box' : 'checkbox-box hidden';
+    let dropdownClassName = this.checkForDropdown() ? 'checkbox-box' : 'checkbox-box hidden';
 
     let imageView = this.props.isPlaying && this.props.currentTrack === this.props.song ? "song-image playing fa fa-pause-circle-o" : "song-image paused fa fa-play-circle-o";
 
@@ -233,7 +241,7 @@ class SongCard extends React.Component {
           <h1>{title}</h1>
           <h2><i className="fa fa-clock-o" aria-hidden="true"/> { this.msToTime()}</h2>
         </div>
-        <button type="button" className={ heartClicked } onClick={ ()=>  this.props.thisHeartWasClicked(this.props.song.id, playlistId, this.props.heartWasClicked.songId, this.props.heartWasClicked.playlistId) }/>
+        <button type="button" className={ heartClicked } onClick={ ()=>  this.props.thisHeartWasClicked(this.props.song.id, playlistId, this.props.heartWasClicked.songId, this.props.heartWasClicked.playlistId, this.props.heartWasClicked.displayDropdown) }/>
         <div className={ dropdownClassName }>
           { this.checkboxHeader() }
           <form>
@@ -245,20 +253,24 @@ class SongCard extends React.Component {
   }
 }
 
-
 function mapDispatchToProps(dispatch) {
   return {
     setCurrentTrack(song){
       dispatch({
         type: 'UPDATE_CURRENT_TRACK',
         currentTrack: song
-      }, {
-        type: 'CHANGE_IS_PLAYING'
       });
     },
-    changePlayingMode(){
+    setPlayMode(value){
       dispatch({
-        type: 'CHANGE_IS_PLAYING'
+        type: 'SET_PLAYING_MODE',
+        value: value
+      });
+    },
+    updateFocusedPlaylist(newPlaylist){
+      dispatch({
+        type: 'UPDATE_CURRENT_PLAYLIST',
+        newPlaylist
       });
     },
     createNewPlaylist(newPlaylist){
@@ -277,19 +289,21 @@ function mapDispatchToProps(dispatch) {
         playlistId
       });
     },
-    thisHeartWasClicked(songId, playlistId, oldSongId, oldPlaylistId){
-      if (oldSongId === songId && oldPlaylistId === playlistId){
-        dispatch({
-          type: 'A_HEART_WAS_CLICKED',
-          songId: 0,
-          playlistId: 0
-        });
-      }
-      else {
-        dispatch({
+    thisHeartWasClicked(songId, playlistId, oldSongId, oldPlaylistId, displayStatus){
+      if (oldSongId === songId && oldPlaylistId === playlistId) {
+        return dispatch({
           type: 'A_HEART_WAS_CLICKED',
           songId,
-          playlistId
+          playlistId,
+          displayDropdown: !displayStatus
+        });
+      }
+      else{
+        return dispatch({
+          type: 'A_HEART_WAS_CLICKED',
+          songId,
+          playlistId,
+          displayDropdown: true
         });
       }
     }

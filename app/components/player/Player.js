@@ -15,9 +15,11 @@ class Player extends React.Component {
     playOrPause() {
     if (this.props.currentTrack !== null) {
       if (this.props.isPlaying) {
+        console.log('player gets a true and sets to play');
         return this.audioElem.play();
       }
       if (!this.props.isPlaying) {
+        console.log('player gets a false and sets to pause');
         return this.audioElem.pause();
       }
     }
@@ -33,8 +35,7 @@ class Player extends React.Component {
         return (<div>
           <div className="player-img" style={{'backgroundImage': `url( ${this.props.currentTrack.artwork_url})`}}/>
         <h1 className="footer-title">{this.props.currentTrack.title}</h1>
-        <audio className="player" src={ songUrl } controls autoPlay ref={(ref)=> this.audioElem = ref}
-               // onClick={()=> this.props.changePlayingMode()}
+        <audio className="player" src={ songUrl } controls ref={(ref)=> this.audioElem = ref}
                onPlay={()=> this.props.setPlaying(true)}
         onPause={()=> this.props.setPlaying(false)}/>
           </div>
@@ -55,11 +56,6 @@ render(){
 
 function mapDispatchToProps(dispatch) {
   return {
-    changePlayingMode(){
-      dispatch({
-        type: 'CHANGE_IS_PLAYING'
-      });
-    },
     setPlaying(value){
       dispatch({
       type:'CHANGE_IS_PLAYING_VIA_PLAYER',
