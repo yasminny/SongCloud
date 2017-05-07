@@ -14,25 +14,7 @@ import React from 'react';
 export default class Root extends React.Component {
   constructor() {
     super();
-
-    // this.updateCurrentTrack = this.updateCurrentTrack.bind(this);
-    // this.createNewPlaylist = this.createNewPlaylist.bind(this);
-    // this.deletePlaylist = this.deletePlaylist.bind(this);
-    // this.updateEditModePlaylist = this.updateEditModePlaylist.bind(this);
-    // this.changeListTitle = this.changeListTitle.bind(this);
-    // this.updateSelectedSong = this.updateSelectedSong.bind(this);
-    // this.updateClickedBtn = this.updateClickedBtn.bind(this);
-
     this.state = {
-      // currentTrack: {},
-      // selectedSong: {},
-      // clickedBtn: {},
-      // playlists: [{
-      //   id: 1,
-      //   title: 'test',
-      //   isFocusMode: false,
-      //   songs: []
-      // }]
     }
   }
 
@@ -106,7 +88,8 @@ export default class Root extends React.Component {
     return (
       <div className="main-root root-comp">
         <main>
-          <Topbar/>
+          <Topbar
+            {...this.props}/>
           <Switch>
             <Route exact path="/" component={() => {
               return <Redirect to="/explore"/>

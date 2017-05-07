@@ -15,11 +15,9 @@ class Player extends React.Component {
     playOrPause() {
     if (this.props.currentTrack !== null) {
       if (this.props.isPlaying) {
-        console.log('player gets a true and sets to play');
         return this.audioElem.play();
       }
       if (!this.props.isPlaying) {
-        console.log('player gets a false and sets to pause');
         return this.audioElem.pause();
       }
     }

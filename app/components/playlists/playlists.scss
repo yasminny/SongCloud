@@ -4,7 +4,11 @@
 }
 
 .playlists-comp-main{
-  margin-top: -50px;
+  position: fixed;
+  left: 0;
+  top: 64px;
+  height: 89%;
+  overflow-x: scroll;
 }
 
 .right-playlists{

@@ -2,10 +2,14 @@
   "name": "songcloud",
   "version": "1.0.0",
   "description": "FED Bootcamp 3nd project - React SPA",
+  "now": {
+    "alias": "songcloud-yasmin"
+  },
   "scripts": {
-    "start": "webpack-dev-server --hot --progress",
+    "start": "node server/server.js",
+    "start:dev": "webpack-dev-server --hot --progress",
     "build": "NODE_ENV=production webpack -p --progress",
-    "buildwin": "set NODE_ENV=production&webpack -p --progress"
+    "buildwin": "set NODE_ENV=production&& webpack --progress"
   },
   "license": "ISC",
   "dependencies": {
@@ -22,7 +26,6 @@
     "redux": "3.6.0",
     "roboto-fontface": "0.7.0",
     "smoothscroll-polyfill": "0.3.4",
-    "surface": "github:mildrenben/surface",
     "url-search-params": "0.7.0",
     "uuid": "3.0.1"
   },

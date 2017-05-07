@@ -2,6 +2,7 @@ import './songcard.scss';
 import React from 'react';
 import {connect} from 'react-redux';
 import uuid from 'uuid';
+import {serverLocation} from '../../serverLocation';
 
 class SongCard extends React.Component {
   constructor() {
@@ -19,6 +20,7 @@ class SongCard extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.isSongInThisPlaylist = this.isSongInThisPlaylist.bind(this);
     this.checkForDropdown = this.checkForDropdown.bind(this);
+    this.heartClassName = this.heartClassName.bind(this);
   }
 
   componentDidMount() {
@@ -70,6 +72,7 @@ class SongCard extends React.Component {
   handleInputChange(event) {
     const target = event.target;
     const playlistId = target.name;
+    this.updateRelatedPlaylists();
     this.addOrRemoveSongToExistingPlaylist(playlistId);
   }
 
@@ -94,7 +97,6 @@ class SongCard extends React.Component {
 
 //player related function-------------------------------------
   handelPlaySong(song) {
-    console.log('image in song card was clicked');
     this.props.setCurrentTrack(song);
     if (this.props.currentTrack !== this.props.song && !this.props.isPlaying){
       console.log('changes playing mode was called');
@@ -111,7 +113,7 @@ class SongCard extends React.Component {
   //functions for server updates(ajax)----------------------------------
   xhrCreatePlaylist(newPlaylist){
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:3000/xhrCreatePlaylist');
+    xhr.open('POST', `${serverLocation}/xhrCreatePlaylist`);
 
     xhr.setRequestHeader('Content-Type', 'application/json');
 
@@ -130,7 +132,7 @@ class SongCard extends React.Component {
 
   xhrUpdateSongInPlaylist(newPlaylists) {
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:3000/xhrUpdateSongInPlaylist');
+    xhr.open('POST', `${serverLocation}/xhrUpdateSongInPlaylist`);
 
     xhr.setRequestHeader('Content-Type', 'application/json');
 
@@ -194,6 +196,18 @@ class SongCard extends React.Component {
   }
 }
 
+heartClassName(){
+  if(this.state.relatedPlaylists.length === 0){
+    return "add-to-list fa fa-heart-o";
+  }
+  if (this.props.heartWasClicked.songId === this.props.song.id && this.props.heartWasClicked.playlistId === this.props.playlistId && this.props.heartWasClicked.displayDropdown){
+    return "add-to-list fa fa-heart-o blue-heart";
+  }
+  else {
+    return "add-to-list fa fa-heart blue-heart";
+  }
+}
+
 
   createPlaylist() {
     return <ul>
@@ -223,10 +237,6 @@ class SongCard extends React.Component {
     let playlistId = this.props.playlistId;
     const title = trackTitleSlicer(this.props.title);
 
-    let heartBlue = this.state.relatedPlaylists.length > 0 ? "add-to-list fa fa-heart blue-heart" : "add-to-list fa fa-heart-o";
-
-    let heartClicked = this.props.heartWasClicked.songId === this.props.song.id && this.props.heartWasClicked.playlistId === this.props.playlistId? "add-to-list fa fa-heart-o blue-heart" : heartBlue;
-
     let dropdownClassName = this.checkForDropdown() ? 'checkbox-box' : 'checkbox-box hidden';
 
     let imageView = this.props.isPlaying && this.props.currentTrack === this.props.song ? "song-image playing fa fa-pause-circle-o" : "song-image paused fa fa-play-circle-o";
@@ -241,7 +251,7 @@ class SongCard extends React.Component {
           <h1>{title}</h1>
           <h2><i className="fa fa-clock-o" aria-hidden="true"/> { this.msToTime()}</h2>
         </div>
-        <button type="button" className={ heartClicked } onClick={ ()=>  this.props.thisHeartWasClicked(this.props.song.id, playlistId, this.props.heartWasClicked.songId, this.props.heartWasClicked.playlistId, this.props.heartWasClicked.displayDropdown) }/>
+        <button type="button" className={ this.heartClassName() } onClick={ ()=>  this.props.thisHeartWasClicked(this.props.song.id, playlistId, this.props.heartWasClicked.songId, this.props.heartWasClicked.playlistId, this.props.heartWasClicked.displayDropdown) }/>
         <div className={ dropdownClassName }>
           { this.checkboxHeader() }
           <form>

@@ -2,6 +2,7 @@ import './playlistsidebar.scss';
 import React from 'react';
 import { connect } from 'react-redux';
 import uuid from 'uuid';
+import {serverLocation} from '../../serverLocation';
 
 class PlaylistSideBar extends React.Component{
   constructor(props) {
@@ -45,7 +46,7 @@ handelCreateNewPlaylist(){
 
   xhrCreatePlaylist(newPlaylist) {
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:3000/xhrCreatePlaylist');
+    xhr.open('POST', `${serverLocation}/xhrCreatePlaylist`);
 
     xhr.setRequestHeader('Content-Type', 'application/json');
 
