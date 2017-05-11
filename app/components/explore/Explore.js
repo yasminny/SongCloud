@@ -34,6 +34,7 @@ export default class Explore extends React.Component {
 
   loadSongs() {
     const genre = this.props.match.params.genre.toString();
+
     let offset = this.state.offset;
     let limit = this.state.limit;
 

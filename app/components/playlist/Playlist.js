@@ -2,6 +2,7 @@ import React from 'react';
 import SongsComp from '../songs/SongsComp';
 import './playlist.scss';
 import { connect } from 'react-redux';
+import {serverLocation} from '../../serverLocation';
 
 class Playlist extends React.Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class Playlist extends React.Component {
     const currentPlaylists = [...this.props.playlists];
     currentPlaylists.splice(index, 1);
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:3000/xhrDeletePlaylist');
+    xhr.open('POST', `${serverLocation}/xhrChangesToPlaylist`);
 
     xhr.setRequestHeader('Content-Type', 'application/json');
 
@@ -46,7 +47,7 @@ class Playlist extends React.Component {
     const newPlaylists = [...this.props.playlists];
       newPlaylists[index].isFocusMode = newMode;
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:3000/xhrUpdateEditModePlaylist');
+    xhr.open('POST', `${serverLocation}/xhrChangesToPlaylist`);
 
     xhr.setRequestHeader('Content-Type', 'application/json');
 
@@ -91,7 +92,7 @@ class Playlist extends React.Component {
     const currentPlaylists = [...this.props.playlists];
     currentPlaylists[index].title = value;
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:3000/xhrDeletePlaylist');
+    xhr.open('POST', `${serverLocation}/xhrChangesToPlaylist`);
 
     xhr.setRequestHeader('Content-Type', 'application/json');
 
@@ -124,6 +125,7 @@ class Playlist extends React.Component {
     if (this.props.playlist.isFocusMode) {
       return <form onSubmit={ this.handleSubmit}>
         <input type="text"
+               className="playlist-title-input"
                autoFocus={ this.focusOnThisPlaylist() }
                ref={(value) => this.inputElm = value }
                onBlur={() => this.handelBlurAndEnter(this.props.index)}
@@ -155,12 +157,10 @@ class Playlist extends React.Component {
     if (this.props.playlist.songs[0] !== undefined) {
       return <SongsComp
         songs={ this.props.playlist.songs }
-        // updateCurrentTrack={ this.props.updateCurrentTrack }
         createNewPlaylist={ this.props.createNewPlaylist }
         mode={ 'playlist'}
         playlistId={ this.props.playlist.id }
         playlists={ this.props.playlists }
-        // updateSelectedSong={ props.updateSelectedSong }
       />
     }
     else {
@@ -171,7 +171,6 @@ class Playlist extends React.Component {
 
 
   render() {
-    const length = this.props.playlist.songs.length;
     return (
       <div className="playlist-comp" ref={(value) => this.playlistElm = value}>
         <div className="playlist-title">

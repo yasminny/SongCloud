@@ -132,7 +132,7 @@ class SongCard extends React.Component {
 
   xhrUpdateSongInPlaylist(newPlaylists) {
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', `${serverLocation}/xhrUpdateSongInPlaylist`);
+    xhr.open('POST', `${serverLocation}/xhrChangesToPlaylist`);
 
     xhr.setRequestHeader('Content-Type', 'application/json');
 
@@ -243,7 +243,7 @@ heartClassName(){
 
     return (
       <div className="songcard songcard-comp">
-        <div className="song-img" style={{'backgroundImage': `url( ${this.props.artwork_url})`}}
+        <div className="song-img" x
              onClick={ () => this.handelPlaySong(this.props.song)}>
           <div className={ imageView }/>
         </div>
