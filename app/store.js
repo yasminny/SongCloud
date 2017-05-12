@@ -17,6 +17,7 @@ const reducer = combineReducers({
 const store = createStore(reducer);
 
 const xhr = new XMLHttpRequest();
+console.log(`${ServerLocation}/playlists`);
 xhr.open('GET', `${ServerLocation}/playlists`);
 xhr.addEventListener('load', () => {
   store.dispatch({
