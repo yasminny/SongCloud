@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 
 //get playlist
 app.get('/playlists', function (req, res) {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+  res.setHeader('Access-Control-Allow-Origin', 'https://localhost:8080');
   res.sendFile(os.tmpdir() + '/playlists.json');
 });
 

@@ -39,7 +39,7 @@ export default class Explore extends React.Component {
     let limit = this.state.limit;
 
     const searchParam = new URLSearchParams(this.props.location.search);
-    const searchTarget = searchParam.get('search')? 'q': 'tags';
+    const searchTarget = searchParam.get('search') ? 'q' : 'tags';
 
     this.setState({songsLoading: 'loading'});
     const xhr = new XMLHttpRequest();
@@ -56,14 +56,14 @@ export default class Explore extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.match.params.genre !== this.props.match.params.genre) {
-      this.setState({ offset: 0 }, ()=> {
+      this.setState({offset: 0}, () => {
         this.loadSongs();
       });
     }
-    if(prevState.offset !== this.state.offset){
+    if (prevState.offset !== this.state.offset) {
       this.loadSongs();
     }
-    if (this.catElm){
+    if (this.catElm) {
       this.catElm.scrollIntoView();
     }
 
@@ -82,11 +82,11 @@ export default class Explore extends React.Component {
     }, 1000);
   }
 
-  handelCreateSongs(){
+  handelCreateSongs() {
     const searchParam = new URLSearchParams(this.props.location.search);
     const isInSearch = searchParam.get('search');
     const songsLength = this.state.songs.length;
-    if( isInSearch && songsLength === 0){
+    if (isInSearch && songsLength === 0) {
 
       return <h5>No songs were found for your search</h5>
     }
@@ -104,12 +104,12 @@ export default class Explore extends React.Component {
         <p>page {this.state.offset / this.state.limit + 1}</p>
         <button type="button" className="next" onClick={ () => this.nextPage(this)}>Next</button>
       </div>
-      </div>
+    </div>
   }
 
   render() {
     const searchParam = new URLSearchParams(this.props.location.search);
-    const viewTitle = searchParam.get('search')? 'Search' : 'Genre';
+    const viewTitle = searchParam.get('search') ? 'Search' : 'Genre';
     switch (this.state.songsLoading) {
       case 'loading':
         return <div className="loading"><i className="fa fa-spinner fa-pulse fa-3x fa-fw"> </i></div>;
@@ -120,7 +120,7 @@ export default class Explore extends React.Component {
       case 'loaded':
         return (
           <div className="explore-comp">
-            <ul className="categories" ref={(cat)=> this.catElm = cat }>
+            <ul className="categories" ref={(cat) => this.catElm = cat }>
               <li>Genres:</li>
               <li><NavLink to="/explore/indie" activeClassName="selected-genre">Indie</NavLink></li>
               <li><NavLink to="/explore/pop" activeClassName="selected-genre">Pop</NavLink></li>

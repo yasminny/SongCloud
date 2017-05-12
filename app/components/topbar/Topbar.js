@@ -8,15 +8,14 @@ import React from 'react';
 export default class Topbar extends React.Component {
   constructor() {
     super();
-    this.state = {
-    };
+    this.state = {};
     this.handelSearchSubmit = this.handelSearchSubmit.bind(this);
   }
 
   handelSearchSubmit(e) {
     e.preventDefault();
     const search = this.searchElem.value;
-    if (search.length > 0){
+    if (search.length > 0) {
       this.props.history.push(`/explore/${search}?search=true`);
     }
   }
@@ -40,7 +39,7 @@ export default class Topbar extends React.Component {
           </div>
           <div className="right">
             <form onSubmit={this.handelSearchSubmit}>
-              <input type="text" className="search" placeholder="SEARCH" ref={(elem)=> this.searchElem = elem}/>
+              <input type="text" className="search" placeholder="SEARCH" ref={(elem) => this.searchElem = elem}/>
               <span className="fa fa-search" aria-hidden="true" onClick={this.handelSearchSubmit}> </span>
             </form>
             <button type="button" className="logout"><NavLink to="/signin">Logout</NavLink></button>

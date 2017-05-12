@@ -234,6 +234,8 @@ heartClassName(){
       return title;
     }
 
+    const imgUrl = this.props.song.artwork_url? this.props.song.artwork_url.replace('large','t300x300'): this.props.song.artwork_url;
+
     let playlistId = this.props.playlistId;
     const title = trackTitleSlicer(this.props.title);
 
@@ -243,7 +245,7 @@ heartClassName(){
 
     return (
       <div className="songcard songcard-comp">
-        <div className="song-img" style={{'backgroundImage': `url( ${props.song.artwork_url})`}}
+        <div className="song-img" style={{'backgroundImage': `url( ${imgUrl})`}}
              onClick={ () => this.handelPlaySong(this.props.song)}>
           <div className={ imageView }/>
         </div>
