@@ -4,6 +4,7 @@ import playlists from './reducers/playlists';
 import currentTrack from './reducers/current-track';
 import isPlaying from './reducers/is-playing';
 import focusedPlaylist from './reducers/focused-playlist';
+import ServerLocation from './serverLocation'
 
 const reducer = combineReducers({
   heartWasClicked,
@@ -16,7 +17,7 @@ const reducer = combineReducers({
 const store = createStore(reducer);
 
 const xhr = new XMLHttpRequest();
-xhr.open('GET', `http://localhost:3000/playlists`);
+xhr.open('GET', `${ServerLocation}/playlists`);
 xhr.addEventListener('load', () => {
   store.dispatch({
     type: 'GET_XHR_PLAYLISTS',
