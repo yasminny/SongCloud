@@ -7,82 +7,13 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-
 import React from 'react';
-// import store from '../../store';
 
 export default class Root extends React.Component {
   constructor() {
     super();
-    this.state = {
-    }
+    this.state = {}
   }
-
-  // updateCurrentTrack(newSong) {
-  //   this.setState({
-  //     currentTrack: Object.assign({}, newSong)
-  //   })
-  // }
-
-  // createNewPlaylist(newSong, redirectTo) {
-  //   const newPlaylists = [...this.state.playlists];
-  //   const playlistSongs = newSong ? [newSong] : [];
-  //   newPlaylists.push({
-  //     id: uuid(),
-  //     title: 'Untitled',
-  //     isFocusMode: true,
-  //     songs: playlistSongs
-  //   });
-  //   if (!redirectTo) {
-  //     this.setState({
-  //       playlists: newPlaylists
-  //     })
-  //   }
-  //   if (redirectTo) {
-  //     this.setState({
-  //       playlists: newPlaylists
-  //     }, () => {
-  //       this.props.history.push(redirectTo);
-  //     })
-  //   }
-  // }
-  //
-  // updateEditModePlaylist(index){
-  //   let oldPlaylist = [...this.state.playlists];
-  //   oldPlaylist[index].isFocusMode = !oldPlaylist[index].isFocusMode;
-  //   this.setState({
-  //     playlists: oldPlaylist
-  //   })
-  // }
-  //
-  // deletePlaylist(index){
-  //   let oldPlaylist = [...this.state.playlists];
-  //   oldPlaylist.splice(index, 1);
-  //   this.setState({
-  //     playlists: oldPlaylist
-  //   })
-  // }
-  //
-  // changeListTitle(value, index){
-  //   let oldPlaylist = [...this.state.playlists];
-  //   oldPlaylist[index].title = value;
-  //   this.setState({
-  //     playlists: oldPlaylist
-  //   })
-  // }
-
-
-// updateSelectedSong(newSong) {
-//   this.setState({
-//     selectedSong: Object.assign({}, newSong)
-//   })
-// }
-//
-// updateClickedBtn(btn) {
-//   this.setState({
-//     clickedBtn: Object.assign({}, btn)
-//   })
-// }
 
   render() {
     return (
@@ -97,35 +28,12 @@ export default class Root extends React.Component {
             <Route exact path="/explore" component={ () => {
               return <Redirect to="/explore/house"/>
             }}/>
-            {/*not a comp as I cant pass props without a function like the update function or the match object*/}
             <Route path="/explore/:genre" component={ Explore }/>
-                {/*// createNewPlaylist={ this.createNewPlaylist }*/}
-                {/*// updateSelectedSong={ this.updateSelectedSong }*/}
-                {/*// updateClickedBtn={ this.updateClickedBtn }*/}
-                {/*// selectedSong={ this.state.selectedSong }*/}
-                {/*// clickedBtn={ this.state.clickedBtn }*/}
-                {/*// updateCurrentTrack={ this.updateCurrentTrack }*/}
-
-                {/*// playlists={ this.state.playlists }/>*/}
-
             <Route exact path="/playlists" component={ Playlists }/>
-                {/*// playlists={ this.state.playlists }*/}
-                                {/*// deletePlaylist={ this.deletePlaylist }*/}
-                                {/*// createNewPlaylist={ this.createNewPlaylist }*/}
-                                {/*// updateEditModePlaylist={ this.updateEditModePlaylist }*/}
-                                {/*// changeListTitle={ this.changeListTitle }*/}
-                {/*// updateCurrentTrack={ this.updateCurrentTrack }*/}
-                {/*// updateSelectedSong={ this.updateSelectedSong }*/}
-                {/*// updateClickedBtn={ this.updateClickedBtn }*/}
-                {/*// selectedSong={ this.state.selectedSong }*/}
-                {/*// clickedBtn={ this.state.clickedBtn }*/}
-                {/*// data={ this.state.playlists }*/}
-              {/*/>*/}
           </Switch>
           <Player/>
         </main>
-      </div>);
+      </div>
+    );
   }
-  ;
-
 }

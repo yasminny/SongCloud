@@ -167,7 +167,7 @@ class SongCard extends React.Component {
       return <header className="checkbox-header">
         <p>Add to play list</p>
         <button type='button' className="create-playlist-btn" onClick={ () => this.addSongToPlaylist(this.props.song) }>
-          Create playlist +
+          {this.createPlaylist()}
         </button>
       </header>
     }
@@ -243,7 +243,7 @@ heartClassName(){
 
     return (
       <div className="songcard songcard-comp">
-        <div className="song-img" x
+        <div className="song-img" style={{'backgroundImage': `url( ${props.song.artwork_url})`}}
              onClick={ () => this.handelPlaySong(this.props.song)}>
           <div className={ imageView }/>
         </div>

@@ -1,5 +1,6 @@
-import React from 'react';
+//experimental component to try out react.
 
+import React from 'react';
 
 export default class Greeting extends React.Component {
   constructor() {
@@ -69,5 +70,4 @@ export default class Greeting extends React.Component {
       </div>
     );
   }
-
 }
