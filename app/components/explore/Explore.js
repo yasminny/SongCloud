@@ -3,7 +3,6 @@ import React from 'react';
 import SongsComp from '../songs/SongsComp';
 import {NavLink} from 'react-router-dom';
 
-
 export default class Explore extends React.Component {
   constructor() {
     super();
@@ -20,16 +19,18 @@ export default class Explore extends React.Component {
     this.loadSongs();
   }
 
-  nextPage() {
-    this.setState({
-      offset: this.state.offset + this.state.limit
-    })
-  }
-
-  prevPage() {
-    this.setState({
-      offset: this.state.offset - this.state.limit
-    })
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.match.params.genre !== this.props.match.params.genre) {
+      this.setState({offset: 0}, () => {
+        this.loadSongs();
+      });
+    }
+    if (prevState.offset !== this.state.offset) {
+      this.loadSongs();
+    }
+    if (this.catElm) {
+      this.catElm.scrollIntoView();
+    }
   }
 
   loadSongs() {
@@ -54,21 +55,6 @@ export default class Explore extends React.Component {
     xhr.send();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.match.params.genre !== this.props.match.params.genre) {
-      this.setState({offset: 0}, () => {
-        this.loadSongs();
-      });
-    }
-    if (prevState.offset !== this.state.offset) {
-      this.loadSongs();
-    }
-    if (this.catElm) {
-      this.catElm.scrollIntoView();
-    }
-
-  }
-
   waitForLoading() {
     setTimeout(() => {
       this.setState({countdownTillLoading: this.state.countdownTillLoading - 1});
@@ -86,8 +72,8 @@ export default class Explore extends React.Component {
     const searchParam = new URLSearchParams(this.props.location.search);
     const isInSearch = searchParam.get('search');
     const songsLength = this.state.songs.length;
-    if (isInSearch && songsLength === 0) {
 
+    if (isInSearch && songsLength === 0) {
       return <h5>No songs were found for your search</h5>
     }
     return <div>
@@ -107,32 +93,46 @@ export default class Explore extends React.Component {
     </div>
   }
 
+  nextPage() {
+    this.setState({
+      offset: this.state.offset + this.state.limit
+    })
+  }
+
+  prevPage() {
+    this.setState({
+      offset: this.state.offset - this.state.limit
+    })
+  }
+
   render() {
     const searchParam = new URLSearchParams(this.props.location.search);
     const viewTitle = searchParam.get('search') ? 'Search' : 'Genre';
+
     switch (this.state.songsLoading) {
       case 'loading':
         return <div className="loading"><i className="fa fa-spinner fa-pulse fa-3x fa-fw"> </i></div>;
+
       case 'error':
         return <div>Error! please
           <button type="button" onClick={ this.waitForLoading }>try again</button>
           , or wait {this.state.countdownTillLoading} seconds</div>;
+
       case 'loaded':
         return (
           <div className="explore-comp">
             <ul className="categories" ref={(cat) => this.catElm = cat }>
               <li>Genres:</li>
+              <li><NavLink to="/explore/house" activeClassName="selected-genre">House</NavLink></li>
               <li><NavLink to="/explore/indie" activeClassName="selected-genre">Indie</NavLink></li>
               <li><NavLink to="/explore/pop" activeClassName="selected-genre">Pop</NavLink></li>
               <li><NavLink to="/explore/ambient" activeClassName="selected-genre">Ambient</NavLink></li>
               <li><NavLink to="/explore/dubstep" activeClassName="selected-genre">Dubstep</NavLink></li>
               <li><NavLink to="/explore/trance" activeClassName="selected-genre">Trance</NavLink></li>
-              <li><NavLink to="/explore/house" activeClassName="selected-genre">House</NavLink></li>
             </ul>
             <div className="genre-title">
               {viewTitle}: { this.props.match.params.genre.toString().charAt(0).toUpperCase() + this.props.match.params.genre.toString().slice(1) }</div>
             {this.handelCreateSongs()}
-
           </div>
         );
     }

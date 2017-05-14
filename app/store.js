@@ -2,23 +2,21 @@ import {createStore, combineReducers} from 'redux';
 import heartWasClicked from './reducers/heart-was-clicked';
 import playlists from './reducers/playlists';
 import currentTrack from './reducers/current-track';
-import isPlaying from './reducers/is-playing';
+import isPaused from './reducers/is-paused';
 import focusedPlaylist from './reducers/focused-playlist';
-import ServerLocation from './serverLocation'
 
 const reducer = combineReducers({
   heartWasClicked,
   currentTrack,
   playlists,
-  isPlaying,
+  isPaused,
   focusedPlaylist
 });
 
 const store = createStore(reducer);
 
 const xhr = new XMLHttpRequest();
-console.log(`${ServerLocation}/playlists`);
-xhr.open('GET', `${ServerLocation}/playlists`);
+xhr.open('GET', `${location.origin}/playlists`);
 xhr.addEventListener('load', () => {
   store.dispatch({
     type: 'GET_XHR_PLAYLISTS',

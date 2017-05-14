@@ -98,14 +98,13 @@ class SongCard extends React.Component {
 //player related function-------------------------------------
   handelPlaySong(song) {
     this.props.setCurrentTrack(song);
-    if (this.props.currentTrack !== this.props.song && !this.props.isPlaying){
-      console.log('changes playing mode was called');
+    if (this.props.currentTrack !== this.props.song && !this.props.isPaused){
       this.props.setPlayMode(true);
     }
-    else if(this.props.currentTrack === this.props.song && !this.props.isPlaying){
+    else if(this.props.currentTrack === this.props.song && !this.props.isPaused){
       this.props.setPlayMode(true);
     }
-    else if(this.props.currentTrack === this.props.song && this.props.isPlaying){
+    else if(this.props.currentTrack === this.props.song && this.props.isPaused){
       this.props.setPlayMode(false);
     }
   }
@@ -276,7 +275,7 @@ function mapDispatchToProps(dispatch) {
     setPlayMode(value){
       dispatch({
         type: 'SET_PLAYING_MODE',
-        value: value
+        value
       });
     },
     updateFocusedPlaylist(newPlaylist){
@@ -325,7 +324,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(stateData) {
   return {
     playlists: stateData.playlists,
-    isPlaying: stateData.isPlaying,
+    isPaused: stateData.isPaused,
     currentTrack: stateData.currentTrack,
     heartWasClicked: stateData.heartWasClicked
   }

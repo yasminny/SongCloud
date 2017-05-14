@@ -13,7 +13,7 @@ export default function Routes() {
     <BrowserRouter>
       <div className="main-root routes-comp">
         <Switch>
-          {/*components created for setting up the log in option*/}
+          {/*components created for setting up the log in option but decided not to use them by the project manager*/}
           {/*<Route path="/signin" component={ Signin }/>*/}
           {/*<Route path="/signup" component={ Signup }/>*/}
           <Route path="/" component={ Root }/>

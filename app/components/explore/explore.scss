@@ -12,13 +12,11 @@
   height: 30px;
   background-color: $genreBg;
   display: flex;
-  //justify-content: space-around;
   z-index: 50;
   color: $black;
 }
 
 .selected-genre{
-  //border-bottom: solid 1px black;
   text-decoration: underline;
 }
 
