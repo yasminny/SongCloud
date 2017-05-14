@@ -6,10 +6,10 @@ class Player extends React.Component {
   constructor(props) {
     super();
     this.state = {};
+
     this.playOrPause = this.playOrPause.bind(this);
     this.isThereCurrentTrack = this.isThereCurrentTrack.bind(this);
   }
-
 
   playOrPause() {
     if (this.props.currentTrack !== null) {
@@ -35,8 +35,8 @@ class Player extends React.Component {
           <div className="player-img" style={{'backgroundImage': `url( ${this.props.currentTrack.artwork_url})`}}/>
           <h1 className="footer-title">{this.props.currentTrack.title}</h1>
           <audio className="player" src={ songUrl } controls ref={(ref) => this.audioElem = ref}
-                 onPlay={() => this.props.setPlaying(true)}
-                 onPause={() => this.props.setPlaying(false)}/>
+                 onPlay={() => this.props.setPause(true)}
+                 onPause={() => this.props.setPause(false)}/>
         </div>
       );
     }
@@ -53,7 +53,7 @@ class Player extends React.Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setPlaying(value){
+    setPause(value){
       dispatch({
         type: 'CHANGE_IS_PLAYING_VIA_PLAYER',
         value

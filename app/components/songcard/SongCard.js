@@ -40,11 +40,11 @@ class SongCard extends React.Component {
     })
   }
 
-  isSongInThisPlaylist(id){
-    const currentPlaylist = this.props.playlists.find((playlist)=> playlist.id === id);
+  isSongInThisPlaylist(id) {
+    const currentPlaylist = this.props.playlists.find((playlist) => playlist.id === id);
     if (currentPlaylist.songs.length > 0) {
-      const isSongThere = currentPlaylist.songs.find((song)=> song.id === this.props.song.id);
-      if(isSongThere){
+      const isSongThere = currentPlaylist.songs.find((song) => song.id === this.props.song.id);
+      if (isSongThere) {
         return true;
       }
     }
@@ -78,18 +78,18 @@ class SongCard extends React.Component {
 
   addOrRemoveSongToExistingPlaylist(id) {
     const currentPlaylists = [...this.props.playlists];
-    const index = currentPlaylists.findIndex((playlist)=> playlist.id === id);
-    if(this.isSongInThisPlaylist(id)){
+    const index = currentPlaylists.findIndex((playlist) => playlist.id === id);
+    if (this.isSongInThisPlaylist(id)) {
       const songIndex = currentPlaylists[index].songs.findIndex((song) => song.id === this.props.song.id);
       currentPlaylists[index].songs.splice(songIndex, 1);
     }
-    else{
+    else {
       currentPlaylists[index].songs.push(this.props.song);
     }
-    if(this.props.mode === 'explore'){
+    if (this.props.mode === 'explore') {
       this.props.addOrRemoveSongFromPlaylist(currentPlaylists, 0);
     }
-    else{
+    else {
       this.props.addOrRemoveSongFromPlaylist(currentPlaylists, id);
     }
     this.xhrUpdateSongInPlaylist(currentPlaylists);
@@ -98,27 +98,23 @@ class SongCard extends React.Component {
 //player related function-------------------------------------
   handelPlaySong(song) {
     this.props.setCurrentTrack(song);
-    if (this.props.currentTrack !== this.props.song && !this.props.isPaused){
+    if (this.props.currentTrack !== this.props.song && !this.props.isPaused) {
       this.props.setPlayMode(true);
     }
-    else if(this.props.currentTrack === this.props.song && !this.props.isPaused){
+    else if (this.props.currentTrack === this.props.song && !this.props.isPaused) {
       this.props.setPlayMode(true);
     }
-    else if(this.props.currentTrack === this.props.song && this.props.isPaused){
+    else if (this.props.currentTrack === this.props.song && this.props.isPaused) {
       this.props.setPlayMode(false);
     }
   }
 
   //functions for server updates(ajax)----------------------------------
-  xhrCreatePlaylist(newPlaylist){
+  xhrCreatePlaylist(newPlaylist) {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', `${serverLocation}/xhrCreatePlaylist`);
 
     xhr.setRequestHeader('Content-Type', 'application/json');
-
-    xhr.addEventListener('load', () => {
-      console.log('ok');
-    });
 
     xhr.addEventListener('error', () => {
       alert('problem!');
@@ -134,10 +130,6 @@ class SongCard extends React.Component {
     xhr.open('POST', `${serverLocation}/xhrChangesToPlaylist`);
 
     xhr.setRequestHeader('Content-Type', 'application/json');
-
-    xhr.addEventListener('load', () => {
-      console.log('ok');
-    });
 
     xhr.addEventListener('error', () => {
       alert('problem!');
@@ -177,35 +169,35 @@ class SongCard extends React.Component {
     }
   }
 
-  checkForDropdown(){
-  let playlistId = this.props.playlistId;
+  checkForDropdown() {
+    let playlistId = this.props.playlistId;
 
-  const theRightSong = this.props.heartWasClicked.songId === this.props.song.id;
+    const theRightSong = this.props.heartWasClicked.songId === this.props.song.id;
 
-  const theRightPlaylist = this.props.heartWasClicked.playlistId !== 0 && this.props.heartWasClicked.playlistId === playlistId;
+    const theRightPlaylist = this.props.heartWasClicked.playlistId !== 0 && this.props.heartWasClicked.playlistId === playlistId;
 
-  if (this.props.heartWasClicked.playlistId === 0 && theRightSong || theRightPlaylist && theRightSong){
-    if(this.props.heartWasClicked.displayDropdown){
-      return true;
+    if (this.props.heartWasClicked.playlistId === 0 && theRightSong || theRightPlaylist && theRightSong) {
+      if (this.props.heartWasClicked.displayDropdown) {
+        return true;
+      }
+      return false;
     }
-    return false;
+    else {
+      return false;
+    }
   }
-  else{
-    return false;
-  }
-}
 
-heartClassName(){
-  if(this.state.relatedPlaylists.length === 0){
-    return "add-to-list fa fa-heart-o";
+  heartClassName() {
+    if (this.state.relatedPlaylists.length === 0) {
+      return "add-to-list fa fa-heart-o";
+    }
+    if (this.props.heartWasClicked.songId === this.props.song.id && this.props.heartWasClicked.playlistId === this.props.playlistId && this.props.heartWasClicked.displayDropdown) {
+      return "add-to-list fa fa-heart-o blue-heart";
+    }
+    else {
+      return "add-to-list fa fa-heart blue-heart";
+    }
   }
-  if (this.props.heartWasClicked.songId === this.props.song.id && this.props.heartWasClicked.playlistId === this.props.playlistId && this.props.heartWasClicked.displayDropdown){
-    return "add-to-list fa fa-heart-o blue-heart";
-  }
-  else {
-    return "add-to-list fa fa-heart blue-heart";
-  }
-}
 
 
   createPlaylist() {
@@ -224,6 +216,7 @@ heartClassName(){
       })}
     </ul>
   }
+
 //----------------------------------------------------------------------------
   render(props) {
     function trackTitleSlicer(title) {
@@ -233,7 +226,7 @@ heartClassName(){
       return title;
     }
 
-    const imgUrl = this.props.song.artwork_url? this.props.song.artwork_url.replace('large','t300x300'): this.props.song.artwork_url;
+    const imgUrl = this.props.song.artwork_url ? this.props.song.artwork_url.replace('large', 't300x300') : this.props.song.artwork_url;
 
     let playlistId = this.props.playlistId;
     const title = trackTitleSlicer(this.props.title);
@@ -252,7 +245,8 @@ heartClassName(){
           <h1>{title}</h1>
           <h2><i className="fa fa-clock-o" aria-hidden="true"/> { this.msToTime()}</h2>
         </div>
-        <button type="button" className={ this.heartClassName() } onClick={ ()=>  this.props.thisHeartWasClicked(this.props.song.id, playlistId, this.props.heartWasClicked.songId, this.props.heartWasClicked.playlistId, this.props.heartWasClicked.displayDropdown) }/>
+        <button type="button" className={ this.heartClassName() }
+                onClick={ () => this.props.thisHeartWasClicked(this.props.song.id, playlistId, this.props.heartWasClicked.songId, this.props.heartWasClicked.playlistId, this.props.heartWasClicked.displayDropdown) }/>
         <div className={ dropdownClassName }>
           { this.checkboxHeader() }
           <form>
@@ -309,7 +303,7 @@ function mapDispatchToProps(dispatch) {
           displayDropdown: !displayStatus
         });
       }
-      else{
+      else {
         return dispatch({
           type: 'A_HEART_WAS_CLICKED',
           songId,

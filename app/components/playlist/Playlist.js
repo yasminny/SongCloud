@@ -1,14 +1,14 @@
 import React from 'react';
 import SongsComp from '../songs/SongsComp';
 import './playlist.scss';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import {serverLocation} from '../../serverLocation';
 
 class Playlist extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      value: props.playlist.title
+      value: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -22,6 +22,21 @@ class Playlist extends React.Component {
     this.xhrUpdatePlaylistTitle = this.xhrUpdatePlaylistTitle.bind(this);
   }
 
+  componentDidMount() {
+    this.setState({
+      value: this.props.playlist.title
+    })
+  }
+
+  componentDidUpdate() {
+    if (this.props.playlist.isFocusMode || this.props.playlist.id === this.props.focusedPlaylist) {
+      this.playlistElm.scrollIntoView({behavior: 'smooth'});
+    }
+    else {
+      this.inputElm.blur();
+    }
+  }
+
   xhrDeletePlaylist(index) {
     const currentPlaylists = [...this.props.playlists];
     currentPlaylists.splice(index, 1);
@@ -29,10 +44,6 @@ class Playlist extends React.Component {
     xhr.open('POST', `${serverLocation}/xhrChangesToPlaylist`);
 
     xhr.setRequestHeader('Content-Type', 'application/json');
-
-    xhr.addEventListener('load', () => {
-      console.log('ok');
-    });
 
     xhr.addEventListener('error', () => {
       alert('problem!');
@@ -45,15 +56,11 @@ class Playlist extends React.Component {
 
   xhrUpdateEditModePlaylist(index, newMode) {
     const newPlaylists = [...this.props.playlists];
-      newPlaylists[index].isFocusMode = newMode;
+    newPlaylists[index].isFocusMode = newMode;
     const xhr = new XMLHttpRequest();
     xhr.open('POST', `${serverLocation}/xhrChangesToPlaylist`);
 
     xhr.setRequestHeader('Content-Type', 'application/json');
-
-    xhr.addEventListener('load', () => {
-      console.log('ok');
-    });
 
     xhr.addEventListener('error', () => {
       alert('problem!');
@@ -64,41 +71,13 @@ class Playlist extends React.Component {
     return false;
   }
 
-  componentDidUpdate() {
-    if(this.props.playlist.isFocusMode || this.props.playlist.id === this.props.focusedPlaylist) {
-      this.playlistElm.scrollIntoView({behavior: 'smooth'});
-    }
-    else {
-      this.inputElm.blur();
-    }
-  }
-
-  focusOnThisPlaylist(){
-    if(this.props.playlist.isFocusMode || this.props.playlist.id === this.props.focusedPlaylist){
-      return true;
-    }
-    return false;
-  }
-
-
-  handleChange(event) {
-    console.log(event.target.value);
-    this.setState({value: event.target.value});
-
-    this.props.changeListTitle(event.target.value, this.props.index)
-  }
-
-  xhrUpdatePlaylistTitle(value, index){
+  xhrUpdatePlaylistTitle(value, index) {
     const currentPlaylists = [...this.props.playlists];
     currentPlaylists[index].title = value;
     const xhr = new XMLHttpRequest();
     xhr.open('POST', `${serverLocation}/xhrChangesToPlaylist`);
 
     xhr.setRequestHeader('Content-Type', 'application/json');
-
-    xhr.addEventListener('load', () => {
-      console.log('ok');
-    });
 
     xhr.addEventListener('error', () => {
       alert('problem!');
@@ -109,16 +88,28 @@ class Playlist extends React.Component {
     return false;
   }
 
+  handleChange(event) {
+    this.setState({value: event.target.value});
+    this.props.changeListTitle(event.target.value, this.props.index)
+  }
+
   handleSubmit(event) {
     event.preventDefault();
-    // this.props.changeListTitle(this.state.value, this.props.index);
     this.xhrUpdatePlaylistTitle(this.state.value, this.props.index);
   }
 
-  handelBlurAndEnter(){
+  handelBlurAndEnter() {
     const newMode = !this.props.playlist.isFocusMode;
     this.props.updateEditModePlaylist(this.props.index);
-  this.xhrUpdateEditModePlaylist(this.props.index, newMode);
+    this.xhrUpdateEditModePlaylist(this.props.index, newMode);
+  }
+
+  handelDeleteList(index) {
+    let answer = confirm(`Deleting "${this.props.playlist.title}" playlist. Are you sure?`);
+    if (answer) {
+      this.xhrDeletePlaylist(index);
+      this.props.deletePlaylist(index);
+    }
   }
 
   toggleListTitleView() {
@@ -140,17 +131,17 @@ class Playlist extends React.Component {
       </form>
     }
     else {
-      return <h2 ref={(value) => this.inputElm = value } onClick={ () => this.handelBlurAndEnter(this.props.index) }>{this.props.playlist.title}<span
+      return <h2 ref={(value) => this.inputElm = value }
+                 onClick={ () => this.handelBlurAndEnter(this.props.index) }>{this.props.playlist.title}<span
         className="num-songs-in-list">{ this.props.playlist.songs.length}</span></h2>
     }
   }
 
-  handelDeleteList(index) {
-    let answer = confirm(`Deleting "${this.props.playlist.title}" playlist. Are you sure?`);
-    if(answer){
-      this.xhrDeletePlaylist(index);
-      this.props.deletePlaylist(index);
+  focusOnThisPlaylist() {
+    if (this.props.playlist.isFocusMode || this.props.playlist.id === this.props.focusedPlaylist) {
+      return true;
     }
+    return false;
   }
 
   createSongs() {
@@ -168,8 +159,6 @@ class Playlist extends React.Component {
     }
   }
 
-
-
   render() {
     return (
       <div className="playlist-comp" ref={(value) => this.playlistElm = value}>
@@ -182,7 +171,6 @@ class Playlist extends React.Component {
         <div className="list-songs">
           { this.createSongs() }
         </div>
-
       </div>
     );
   }

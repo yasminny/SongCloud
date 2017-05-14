@@ -27,7 +27,6 @@
 .songcard .details h1, .songcard .details h2{
   font-size: 0.69rem;
   color: $grey;
-  //letter-spacing: 0.94rem;
   margin: 0;
   display: block;
 }
@@ -36,13 +35,9 @@
   margin-right: 10px;
   color: $shadow;
   float: right;
-  //width: 20px;
-  //  height: 20px;
   font-size: large;
-  //margin: 10px;
   background-color: $white;
   border: none;
-  //margin: 0;
 }
 
 .add-to-list:hover{
@@ -103,7 +98,6 @@
 .checkbox-box form div{
   line-height: 12px;
   display: flex;
-
 }
 
 .blue-heart, .blue-heart:hover, .fa-heart, .fa-heart:hover{

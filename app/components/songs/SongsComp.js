@@ -2,14 +2,13 @@ import './songs.scss';
 import SongCard from '../songcard/SongCard';
 import React from 'react';
 
-export default function SongsComp(props){
+export default function SongsComp(props) {
   return <div className="songs songs-comp">
-      <ul>
-        {
-          props.songs.map((song, i) => {
-
-              const imgUrl = song.artwork_url? song.artwork_url.replace('large','t300x300'): song.artwork_url;
-            return <li  key={ song.id }>
+    <ul>
+      {
+        props.songs.map((song, i) => {
+            const imgUrl = song.artwork_url ? song.artwork_url.replace('large', 't300x300') : song.artwork_url;
+            return <li key={ song.id }>
               <SongCard
                 song={song}
                 title={ song.title }
@@ -26,13 +25,12 @@ export default function SongsComp(props){
               />
             </li>
           }
-          )}
-          <li className="empty"/>
-        <li className="empty"/>
-        <li className="empty"/>
-      </ul>
-    </div>;
-
+        )}
+      <li className="empty"/>
+      <li className="empty"/>
+      <li className="empty"/>
+    </ul>
+  </div>;
 }
 
 

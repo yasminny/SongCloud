@@ -4,13 +4,11 @@ import React from 'react';
 export default function playlists(playlists = [], action) {
   let currentPlaylists = [...playlists];
 
-  if(action.type === 'GET_XHR_PLAYLISTS'){
+  if (action.type === 'GET_XHR_PLAYLISTS') {
     return action.serverPlaylists;
   }
   if (action.type === 'CREATE_NEW_PLAYLIST') {
-    // const newId = action.newId;
     const newPlaylist = action.newPlaylist;
-    // const redirectTo = action.redirectTo;
 
     currentPlaylists.push(newPlaylist);
 
@@ -18,9 +16,8 @@ export default function playlists(playlists = [], action) {
   }
   if (action.type === 'UPDATE_PLAYLIST_TITLE') {
     const index = action.selectedPlaylistIndex;
-    const value = action.newPlaylistTitle;
 
-    currentPlaylists[index].title = value;
+    currentPlaylists[index].title = action.newPlaylistTitle;
 
     return currentPlaylists;
   }
