@@ -158,7 +158,7 @@ class SongCard extends React.Component {
       return <header className="checkbox-header">
         <p>Add to play list</p>
         <button type='button' className="create-playlist-btn" onClick={ () => this.addSongToPlaylist(this.props.song) }>
-          {this.createPlaylist()}
+         Create Playlist +
         </button>
       </header>
     }
@@ -233,7 +233,7 @@ class SongCard extends React.Component {
 
     let dropdownClassName = this.checkForDropdown() ? 'checkbox-box' : 'checkbox-box hidden';
 
-    let imageView = this.props.isPlaying && this.props.currentTrack === this.props.song ? "song-image playing fa fa-pause-circle-o" : "song-image paused fa fa-play-circle-o";
+    let imageView = this.props.isPaused && this.props.currentTrack === this.props.song ? "song-image playing fa fa-pause-circle-o" : "song-image paused fa fa-play-circle-o";
 
     return (
       <div className="songcard songcard-comp">
