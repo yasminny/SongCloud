@@ -88,8 +88,12 @@
 .navbar .fa-search{
   height: 17px;
   width: 16px;
-  position: fixed;
-  right: 278.6px;
-  top: 24px;
+  position: absolute;
+  top: 5px;
+  right: 212px;
   color: $white;
+}
+
+form{
+  position: relative;
 }
