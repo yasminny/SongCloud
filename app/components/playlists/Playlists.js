@@ -32,7 +32,7 @@ function createPlaylist(props) {
     </ul>
   }
   else {
-    return <h1 className="no-playlists">Why don\'t you create some nice playlist?</h1>
+    return <h1 className="no-playlists">"Why don\'t you create some nice playlist?"</h1>
   }
 }
 
